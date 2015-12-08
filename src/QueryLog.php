@@ -25,18 +25,26 @@ use \Phramework\Phramework;
  */
 class QueryLog
 {
-    public function __construct()
-    {
+    /**
+     * @var array
+     */
+    protected $settings;
 
+    public function __construct($settings)
+    {
+        $this->settings = $settings;
     }
 
-    public function register($settings)
+    public function register()
     {
         //Get internal adapter
         $internalAdapter = \Phramework\Database\Database::getAdapter();
 
         //Create new QueryLogAdapter instance
-        $queryLogAdapter = new QueryLogAdapter($settings, $internalAdapter);
+        $queryLogAdapter = new QueryLogAdapter(
+            $this->settings,
+            $internalAdapter
+        );
 
         //Set newly created QueryLogAdapter instance as adapter
         \Phramework\Database\Database::setAdapter($queryLogAdapter);

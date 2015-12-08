@@ -40,7 +40,7 @@ class QueryLog implements \Phramework\Database\IAdapter
 
     public function __construct($settings, $internalAdapter)
     {
-        $logAdapterNamespace = $settings['database']['adapter'];
+        $logAdapterNamespace = $settings['query-log']['database']['adapter'];
 
         $this->logAdapter = new $logAdapterNamespace();
 
