@@ -15,10 +15,9 @@
  * limitations under the License.
  */
 
-namespace Phramework\SystemLog\APP;
+namespace Phramework\QueryLog\APP;
 
 use \Phramework\Phramework;
-use \Phramework\SystemLog\SystemLog;
 
 /**
  * Log implementation for PHPUnit tests

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-namespace Phramework\SystemLog\APP\Controllers;
+namespace Phramework\QueryLog\APP\Controllers;
 
 use \Phramework\Phramework;
 

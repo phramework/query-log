@@ -23,14 +23,14 @@ use \Phramework\Phramework;
  * @license https://www.apache.org/licenses/LICENSE-2.0 Apache-2.0
  * @author Xenofon Spafaridis <nohponex@gmail.com>
  */
-class QueryLog implements \Phramework\Database\IAdapter
+class QueryLogAdapter implements \Phramework\Database\IAdapter
 {
     private $logAdapter;
 
-    protected function log($method, $query, $parameters)
+    protected function log($method, $query, $parameters, $startTimestamp)
     {
-        //
-        $logAdapter->execute()
+        $endTimestamp = time();
+        //$logAdapter->execute();
     }
 
     /**
@@ -73,10 +73,17 @@ class QueryLog implements \Phramework\Database\IAdapter
      */
     public function execute($query, $parameters = [])
     {
+        $startTimestamp = time();
+
         $result = $this->$internalAdapter->execute($query, $parameters);
 
         //log
-        $this->log(__METHOD__, $query, $parameters)
+        $this->log(
+            __METHOD__,
+            $query,
+            $parameters,
+            $startTimestamp
+        );
 
         return $result;
     }
@@ -91,6 +98,8 @@ class QueryLog implements \Phramework\Database\IAdapter
      */
     public function executeLastInsertId($query, $parameters = [])
     {
+        $startTimestamp = time();
+
         $result = $this->$internalAdapter->executeLastInsertId(
             $query,
             $parameters
@@ -114,6 +123,8 @@ class QueryLog implements \Phramework\Database\IAdapter
      */
     public function executeAndFetch($query, $parameters = [], $castModel = null)
     {
+        $startTimestamp = time();
+
         $result = $this->$internalAdapter->execute($query, $parameters = []);
 
         //log
@@ -133,6 +144,8 @@ class QueryLog implements \Phramework\Database\IAdapter
      */
     public function executeAndFetchAll($query, $parameters = [], $castModel = null)
     {
+        $startTimestamp = time();
+
         $result = $this->$internalAdapter->execute($query, $parameters = []);
 
         //log
@@ -150,6 +163,8 @@ class QueryLog implements \Phramework\Database\IAdapter
      */
     public function executeAndFetchArray($query, $parameters = [])
     {
+        $startTimestamp = time();
+
         $result = $this->$internalAdapter->executeAndFetchArray($query, $parameters);
 
         //log
@@ -166,6 +181,8 @@ class QueryLog implements \Phramework\Database\IAdapter
      */
     public function executeAndFetchAllArray($query, $parameters = [])
     {
+        $startTimestamp = time();
+
         $result = $this->$internalAdapter->executeAndFetchAllArray($query, $parameters);
 
         //log
@@ -183,6 +200,8 @@ class QueryLog implements \Phramework\Database\IAdapter
      */
     public function bindExecuteLastInsertId($query, $parameters = [])
     {
+        $startTimestamp = time();
+
         $result = $this->$internalAdapter->bindExecuteLastInsertId(
             $query,
             $parameters
@@ -204,6 +223,8 @@ class QueryLog implements \Phramework\Database\IAdapter
      */
     public function bindExecute($query, $parameters = [])
     {
+        $startTimestamp = time();
+
         $result = $this->$internalAdapter->bindExecute($query, $parameters);
 
         //log
@@ -223,6 +244,8 @@ class QueryLog implements \Phramework\Database\IAdapter
      */
     public function bindExecuteAndFetch($query, $parameters = [], $castModel = null)
     {
+        $startTimestamp = time();
+
         $result = $this->$internalAdapter->bindExecuteAndFetch(
             $query,
             $parameters,
@@ -246,6 +269,8 @@ class QueryLog implements \Phramework\Database\IAdapter
      */
     public function bindExecuteAndFetchAll($query, $parameters = [], $castModel = null)
     {
+        $startTimestamp = time();
+
         $result = $this->$internalAdapter->bindExecuteAndFetchAll(
             $query,
             $parameters,

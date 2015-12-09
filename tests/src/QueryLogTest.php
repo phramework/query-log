@@ -26,5 +26,42 @@ use \Phramework\Extensions\StepCallback;
  */
 class QueryLogTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var Phramework
+     */
+    private $phramework;
 
+    /**
+     * @var QueryLog
+     */
+    private $queryLog;
+
+    /**
+     * This method is called before a test is executed.
+     */
+    public function setUp()
+    {
+        //Prepare phramework instance
+        $this->phramework = \Phramework\QueryLog\APP\Bootstrap::prepare();
+
+        $settings = \Phramework\QueryLog\APP\Bootstrap::getSettings();
+
+        //Create QueryLog object
+        $this->queryLog = new QueryLog($settings);
+    }
+
+    /**
+     * @covers Phramework\QueryLog\QueryLog::register
+     */
+    public function testRegister()
+    {
+        $this->queryLog->register();
+    }
+
+    /**
+     */
+    public function testLog()
+    {
+        \Phramework\Database\Database::execute('SELECT * FROM user');
+    }
 }
