@@ -48,6 +48,8 @@ class QueryLogTest extends \PHPUnit_Framework_TestCase
 
         //Create QueryLog object
         $this->queryLog = new QueryLog($settings);
+
+        $this->queryLog->register();
     }
 
     /**
@@ -55,13 +57,21 @@ class QueryLogTest extends \PHPUnit_Framework_TestCase
      */
     public function testRegister()
     {
-        $this->queryLog->register();
+        $currentDatabaseAdapter = \Phramework\Database\Database::getAdapter();
+
+        $this->assertInstanceOf(
+            'Phramework\QueryLog\QueryLogAdapter',
+            $currentDatabaseAdapter
+        );
     }
 
     /**
+     * @covers Phramework\QueryLog\QueryLog::register
      */
-    public function testLog()
+    public function testRegister2()
     {
-        \Phramework\Database\Database::execute('SELECT * FROM user');
+        $result = \Phramework\Database\Database::execute('SELECT * FROM user');
+
+        var_dump($result);
     }
 }

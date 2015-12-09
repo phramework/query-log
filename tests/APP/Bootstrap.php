@@ -30,14 +30,22 @@ class Bootstrap
     public static function getSettings()
     {
         $settings = [
+            'database' => [
+                'adapter' => 'mysql',
+                'host' => '',
+                'username' => '',
+                'password' => '',
+                'name' => '',
+                'port' => 3306
+            ],
             'query-log' => [
                 'database' => [
-                    'adapter' => '\\Phramework\\Database\\PostgreSQL',
-                    'host' => '127.0.0.1',
-                    'name' => 'system-log',
-                    'password' => 'pass',
-                    'username' => 'username',
-                    'port' => 5432
+                    'adapter' => '\\Phramework\\Database\\MySQL',
+                    'host' => '',
+                    'username' => '',
+                    'password' => '',
+                    'name' => '',
+                    'port' => 3306
                 ]
             ]
         ];
@@ -56,8 +64,10 @@ class Bootstrap
      */
     public static function prepare()
     {
+        $settings = self::getSettings();
+
         $phramework = new Phramework(
-            self::getSettings(),
+            $settings,
             new \Phramework\URIStrategy\URITemplate([
                 [
                     '/',
@@ -78,6 +88,10 @@ class Bootstrap
                     Phramework::METHOD_ANY
                 ],
             ])
+        );
+
+        \Phramework\Database\Database::setAdapter(
+            new \Phramework\Database\MySQL($settings['database'])
         );
 
         return $phramework;

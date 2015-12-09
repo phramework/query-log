@@ -27,9 +27,19 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
 {
     private $logAdapter;
 
-    protected function log($method, $query, $parameters, $startTimestamp)
-    {
+    protected function log(
+        $method,
+        $query,
+        $parameters,
+        $startTimestamp
+    ) {
         $endTimestamp = time();
+
+        var_dump($method);
+        var_dump($query);
+        var_dump($parameters);
+        var_dump($startTimestamp);
+
         //$logAdapter->execute();
     }
 
@@ -42,7 +52,7 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
     {
         $logAdapterNamespace = $settings['query-log']['database']['adapter'];
 
-        $this->logAdapter = new $logAdapterNamespace();
+        $this->logAdapter = new $logAdapterNamespace($settings['query-log']['database']);
 
         if (!($this->logAdapter instanceof \Phramework\Database\IAdapter)) {
             throw new \Exception(sprintf(
@@ -75,11 +85,11 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
     {
         $startTimestamp = time();
 
-        $result = $this->$internalAdapter->execute($query, $parameters);
+        $result = $this->internalAdapter->execute($query, $parameters);
 
         //log
         $this->log(
-            __METHOD__,
+            __FUNCTION__,
             $query,
             $parameters,
             $startTimestamp
@@ -100,7 +110,7 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
     {
         $startTimestamp = time();
 
-        $result = $this->$internalAdapter->executeLastInsertId(
+        $result = $this->internalAdapter->executeLastInsertId(
             $query,
             $parameters
         );
@@ -125,7 +135,7 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
     {
         $startTimestamp = time();
 
-        $result = $this->$internalAdapter->execute($query, $parameters = []);
+        $result = $this->internalAdapter->execute($query, $parameters = []);
 
         //log
 
@@ -146,7 +156,7 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
     {
         $startTimestamp = time();
 
-        $result = $this->$internalAdapter->execute($query, $parameters = []);
+        $result = $this->internalAdapter->execute($query, $parameters = []);
 
         //log
 
@@ -165,7 +175,7 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
     {
         $startTimestamp = time();
 
-        $result = $this->$internalAdapter->executeAndFetchArray($query, $parameters);
+        $result = $this->internalAdapter->executeAndFetchArray($query, $parameters);
 
         //log
 
@@ -183,7 +193,7 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
     {
         $startTimestamp = time();
 
-        $result = $this->$internalAdapter->executeAndFetchAllArray($query, $parameters);
+        $result = $this->internalAdapter->executeAndFetchAllArray($query, $parameters);
 
         //log
 
@@ -202,7 +212,7 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
     {
         $startTimestamp = time();
 
-        $result = $this->$internalAdapter->bindExecuteLastInsertId(
+        $result = $this->internalAdapter->bindExecuteLastInsertId(
             $query,
             $parameters
         );
@@ -225,7 +235,7 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
     {
         $startTimestamp = time();
 
-        $result = $this->$internalAdapter->bindExecute($query, $parameters);
+        $result = $this->internalAdapter->bindExecute($query, $parameters);
 
         //log
 
@@ -246,7 +256,7 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
     {
         $startTimestamp = time();
 
-        $result = $this->$internalAdapter->bindExecuteAndFetch(
+        $result = $this->internalAdapter->bindExecuteAndFetch(
             $query,
             $parameters,
             $castModel
@@ -271,7 +281,7 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
     {
         $startTimestamp = time();
 
-        $result = $this->$internalAdapter->bindExecuteAndFetchAll(
+        $result = $this->internalAdapter->bindExecuteAndFetchAll(
             $query,
             $parameters,
             $castModel

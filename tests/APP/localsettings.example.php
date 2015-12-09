@@ -1,11 +1,19 @@
 <?php
+$settings['database'] = [
+    'adapter' => 'mysql',
+    'host' => 'db.nohponex.gr',
+    'username' => 'phramework',
+    'password' => 'eRxUxyxJvVQrT3LM',
+    'name' => 'phramework',
+    'port' => 3306
+];
 
 $settings['query-log']['database'] =
     [
-        'adapter' => '\\Phramework\\Database\\PostgreSQL',
-        'host' => '127.0.0.1',
-        'name' => 'db_name',
-        'password' => 'db_pass',
-        'username' => 'db_user',
-        'port' => 5432
+        'adapter' => '\\Phramework\\Database\\MySQL',
+        'host' => 'db.nohponex.gr',
+        'username' => 'phramework',
+        'password' => 'eRxUxyxJvVQrT3LM',
+        'name' => 'phramework',
+        'port' => 3306
     ];
