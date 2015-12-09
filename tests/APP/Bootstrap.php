@@ -30,6 +30,7 @@ class Bootstrap
     public static function getSettings()
     {
         $settings = [
+            'debug' => true,
             'database' => [
                 'adapter' => 'mysql',
                 'host' => '',

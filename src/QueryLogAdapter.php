@@ -25,34 +25,83 @@ use \Phramework\Phramework;
  */
 class QueryLogAdapter implements \Phramework\Database\IAdapter
 {
-    private $logAdapter;
-
     protected function log(
-        $method,
+        $function,
         $query,
         $parameters,
         $startTimestamp
     ) {
         $endTimestamp = time();
 
-        var_dump($method);
-        var_dump($query);
-        var_dump($parameters);
-        var_dump($startTimestamp);
+        $duration = $endTimestamp - $startTimestamp;
 
-        //$logAdapter->execute();
+        //Get request URI
+        list($URI) = self::URI();
+
+        //Insert query log record into "query-log" table
+        return $this->logAdapter->execute(
+            'INSERT INTO "query-log"
+            (
+                "request_id",
+                "query",
+                "parameters",
+                "start_timestamp",
+                "duration",
+                "function",
+                "URI",
+                "additional_parameters"
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+            [
+                $this->uuid,
+                $query,
+                ($parameters ? json_encode($parameters) : null),
+                $startTimestamp,
+                $duration,
+                $function,
+                $URI,
+                (
+                    $this->additionalParameters
+                    ? json_encode($this->additionalParameters)
+                    : null
+                )
+            ]
+        );
     }
 
     /**
      * @var \Phramework\Database\IAdapter
      */
-    private $internalAdapter;
+    protected $logAdapter;
 
-    public function __construct($settings, $internalAdapter)
-    {
-        $logAdapterNamespace = $settings['query-log']['database']['adapter'];
+    /**
+     * @var \Phramework\Database\IAdapter
+     */
+    protected $internalAdapter;
 
-        $this->logAdapter = new $logAdapterNamespace($settings['query-log']['database']);
+    /**
+     * @var null|array|object
+     */
+    protected $additionalParameters;
+
+    /**
+     * @var string
+     */
+    protected $uuid;
+
+    /**
+     * @param array                         $settings        Settings array
+     * @param \Phramework\Database\IAdapter $internalAdapter Current database adapter
+     * @param null|object|array             $additionalParameters Additional parameters to store in log
+     * @todo Generate true UUID
+     */
+    public function __construct(
+        $settings,
+        $internalAdapter,
+        $additionalParameters = null
+    ) {
+        $logAdapterNamespace = $settings['database']['adapter'];
+
+        $this->logAdapter = new $logAdapterNamespace($settings['database']);
 
         if (!($this->logAdapter instanceof \Phramework\Database\IAdapter)) {
             throw new \Exception(sprintf(
@@ -62,6 +111,9 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
         }
 
         $this->internalAdapter = $internalAdapter;
+        $this->additionalParameters = $additionalParameters;
+
+        $this->uuid = uniqid();
     }
 
     /**
@@ -298,5 +350,40 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
     public function close()
     {
         return $this->internalAdapter->close();
+    }
+
+    /**
+     * Helper method
+     * Get current URI and GET parameters from the requested URI
+     * @return string[2] Returns an array with current URI and GET parameters
+     */
+    public static function URI()
+    {
+        $REDIRECT_QUERY_STRING = (
+            isset($_SERVER['QUERY_STRING'])
+            ? $_SERVER['QUERY_STRING']
+            : ''
+        );
+
+        $REDIRECT_URL = '';
+
+        if (isset($_SERVER['REQUEST_URI'])) {
+            $url_parts = parse_url($_SERVER['REQUEST_URI']);
+            $REDIRECT_URL = $url_parts['path'];
+        }
+
+        $URI = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/');
+
+        $URI = '/' . trim(str_replace($URI, '', $REDIRECT_URL), '/');
+        $URI = urldecode($URI) . '/';
+
+        $URI = trim($URI, '/');
+
+        $parameters = [];
+
+        //Extract parametrs from QUERY string
+        parse_str($REDIRECT_QUERY_STRING, $parameters);
+
+        return [$URI, $parameters];
     }
 }

@@ -30,12 +30,28 @@ class QueryLog
      */
     protected $settings;
 
+    /**
+     * Create a new query-log instance
+     * @param array $settings Settings array
+     */
     public function __construct($settings)
     {
+
+        //Check if system-log setting array is set
+        if (!isset($settings['database'])) {
+            throw new \Phramework\Exceptions\ServerException(
+                'database setting is not set for query-log'
+            );
+        }
+        
         $this->settings = $settings;
     }
 
-    public function register()
+    /**
+     * Activate query-log
+     * @param  null|object|array $additionalParameters
+     */
+    public function register($additionalParameters = null)
     {
         //Get internal adapter
         $internalAdapter = \Phramework\Database\Database::getAdapter();
@@ -43,7 +59,8 @@ class QueryLog
         //Create new QueryLogAdapter instance
         $queryLogAdapter = new QueryLogAdapter(
             $this->settings,
-            $internalAdapter
+            $internalAdapter,
+            $additionalParameters
         );
 
         //Set newly created QueryLogAdapter instance as adapter

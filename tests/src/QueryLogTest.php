@@ -47,7 +47,7 @@ class QueryLogTest extends \PHPUnit_Framework_TestCase
         $settings = \Phramework\QueryLog\APP\Bootstrap::getSettings();
 
         //Create QueryLog object
-        $this->queryLog = new QueryLog($settings);
+        $this->queryLog = new QueryLog($settings['query-log']);
 
         $this->queryLog->register();
     }
