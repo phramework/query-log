@@ -13,11 +13,26 @@ For example:
 ```php
 <?php
 use \Phramework\Phramework;
-use \Phramework\SystemLog;
+use \Phramework\QueryLog;
 
 $settings = [
+      'database' => [
+          'adapter' => 'mysql',
+          'host' => '',
+          'username' => '',
+          'password' => '',
+          'name' => '',
+          'port' => 3306
+    ],
     'query-log' => [
-        'adapter' => '\\Phramework\\Database\\PostgreSQL'
+        database' => [
+            'adapter' => '\\Phramework\\Database\\MySQL',
+            'host' => '',
+            'username' => '',
+            'password' => '',
+            'name' => '',
+            'port' => 3306
+        ]
     ]
 ];
 
@@ -26,6 +41,16 @@ $phramework = new Phramework(
     new \Phramework\URIStrategy\URITemplate([])
 );
 
+\Phramework\Database\Database::setAdapter(
+    new \Phramework\Database\MySQL($settings['database'])
+);
+
+//Create QueryLog object
+$queryLog = new QueryLog($settings['query-log']);
+
+$queryLog->register(
+    ['client' => 'my-additional-parameter']
+);
 
 $phramework->invoke();
 ```

@@ -25,49 +25,6 @@ use \Phramework\Phramework;
  */
 class QueryLogAdapter implements \Phramework\Database\IAdapter
 {
-    protected function log(
-        $function,
-        $query,
-        $parameters,
-        $startTimestamp
-    ) {
-        $endTimestamp = time();
-
-        $duration = $endTimestamp - $startTimestamp;
-
-        //Get request URI
-        list($URI) = self::URI();
-
-        //Insert query log record into "query-log" table
-        return $this->logAdapter->execute(
-            'INSERT INTO "query-log"
-            (
-                "request_id",
-                "query",
-                "parameters",
-                "start_timestamp",
-                "duration",
-                "function",
-                "URI",
-                "additional_parameters"
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
-            [
-                $this->uuid,
-                $query,
-                ($parameters ? json_encode($parameters) : null),
-                $startTimestamp,
-                $duration,
-                $function,
-                $URI,
-                (
-                    $this->additionalParameters
-                    ? json_encode($this->additionalParameters)
-                    : null
-                )
-            ]
-        );
-    }
-
     /**
      * @var \Phramework\Database\IAdapter
      */
@@ -113,9 +70,64 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
         $this->internalAdapter = $internalAdapter;
         $this->additionalParameters = $additionalParameters;
 
-        $this->uuid = uniqid();
+        $this->uuid = self::generateUUID();
     }
 
+    protected function log(
+        $function,
+        $query,
+        $parameters,
+        $startTimestamp
+    ) {
+        $endTimestamp = time();
+
+        $duration = $endTimestamp - $startTimestamp;
+
+        //Get request URI
+        list($URI) = self::URI();
+
+        $debugBacktrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+
+        //remove this log function call
+        //remove QueryLogAdapter execute* function call
+        array_splice($debugBacktrace, 0, 2);
+
+        foreach ($debugBacktrace as $k => &$v) {
+            $v = $v['class'] . '::' . $v['function'];
+        }
+
+        //Insert query log record into "query_log" table
+        return $this->logAdapter->execute(
+            'INSERT INTO "query_log"
+            (
+                "request_id",
+                "query",
+                "parameters",
+                "start_timestamp",
+                "duration",
+                "function",
+                "URI",
+                "additional_parameters",
+                "call_trace"
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
+            [
+                $this->uuid,
+                $query,
+                ($parameters ? json_encode($parameters) : null),
+                $startTimestamp,
+                $duration,
+                $function,
+                $URI,
+                (
+                    $this->additionalParameters
+                    ? json_encode($this->additionalParameters)
+                    : null
+                ),
+                json_encode($debugBacktrace)
+            ]
+        );
+    }
+    
     /**
      * Get adapter's name
      * @return string Adapter's name (lowercase)
@@ -168,10 +180,15 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
         );
 
         //log
+        $this->log(
+            __FUNCTION__,
+            $query,
+            $parameters,
+            $startTimestamp
+        );
 
         return $result;
     }
-
 
     /**
      * Execute a query and fetch first row as associative array
@@ -190,6 +207,12 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
         $result = $this->internalAdapter->execute($query, $parameters = []);
 
         //log
+        $this->log(
+            __FUNCTION__,
+            $query,
+            $parameters,
+            $startTimestamp
+        );
 
         return $result;
     }
@@ -211,10 +234,15 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
         $result = $this->internalAdapter->execute($query, $parameters = []);
 
         //log
+        $this->log(
+            __FUNCTION__,
+            $query,
+            $parameters,
+            $startTimestamp
+        );
 
         return $result;
     }
-
 
     /**
      * Execute a query and fetch first row as array
@@ -230,6 +258,12 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
         $result = $this->internalAdapter->executeAndFetchArray($query, $parameters);
 
         //log
+        $this->log(
+            __FUNCTION__,
+            $query,
+            $parameters,
+            $startTimestamp
+        );
 
         return $result;
     }
@@ -248,6 +282,12 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
         $result = $this->internalAdapter->executeAndFetchAllArray($query, $parameters);
 
         //log
+        $this->log(
+            __FUNCTION__,
+            $query,
+            $parameters,
+            $startTimestamp
+        );
 
         return $result;
     }
@@ -270,6 +310,12 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
         );
 
         //log
+        $this->log(
+            __FUNCTION__,
+            $query,
+            $parameters,
+            $startTimestamp
+        );
 
         return $result;
     }
@@ -290,6 +336,12 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
         $result = $this->internalAdapter->bindExecute($query, $parameters);
 
         //log
+        $this->log(
+            __FUNCTION__,
+            $query,
+            $parameters,
+            $startTimestamp
+        );
 
         return $result;
     }
@@ -315,6 +367,12 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
         );
 
         //log
+        $this->log(
+            __FUNCTION__,
+            $query,
+            $parameters,
+            $startTimestamp
+        );
 
         return $result;
     }
@@ -340,6 +398,12 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
         );
 
         //log
+        $this->log(
+            __FUNCTION__,
+            $query,
+            $parameters,
+            $startTimestamp
+        );
 
         return $result;
     }
@@ -385,5 +449,23 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
         parse_str($REDIRECT_QUERY_STRING, $parameters);
 
         return [$URI, $parameters];
+    }
+
+    /**
+     * @return string Returns a 36 characters string
+     */
+    public static function generateUUID()
+    {
+        return sprintf(
+            '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
+            mt_rand(0, 0xffff),
+            mt_rand(0, 0xffff),
+            mt_rand(0, 0xffff),
+            mt_rand(0, 0x0fff) | 0x4000,
+            mt_rand(0, 0x3fff) | 0x8000,
+            mt_rand(0, 0xffff),
+            mt_rand(0, 0xffff),
+            mt_rand(0, 0xffff)
+        );
     }
 }

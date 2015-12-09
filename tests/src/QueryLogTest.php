@@ -49,7 +49,9 @@ class QueryLogTest extends \PHPUnit_Framework_TestCase
         //Create QueryLog object
         $this->queryLog = new QueryLog($settings['query-log']);
 
-        $this->queryLog->register();
+        $this->queryLog->register(
+            ['client' => 'PHPUnit']
+        );
     }
 
     /**
@@ -70,8 +72,11 @@ class QueryLogTest extends \PHPUnit_Framework_TestCase
      */
     public function testRegister2()
     {
-        $result = \Phramework\Database\Database::execute('SELECT * FROM user');
+        \Phramework\Database\Database::execute('SELECT * FROM user');
 
-        var_dump($result);
+        \Phramework\Database\Database::execute(
+            'SELECT * FROM user WHERE "user"."id" = ? LIMIT 1',
+            [1]
+        );
     }
 }
