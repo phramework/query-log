@@ -74,13 +74,11 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
 
     /**
      * Log query to database
-     * @param  string  $function       Used database adapter method
      * @param  string  $query
      * @param  array   $parameters     Query parameters
      * @param  integer $startTimestamp Timestamp before query was executed
      */
     protected function log(
-        $function,
         $query,
         $parameters,
         $startTimestamp
@@ -97,6 +95,9 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
         list($URI) = self::URI();
 
         $debugBacktrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+
+        //Function used by database adapter
+        $function = $debugBacktrace[1]['function'];
 
         //remove this log function call
         //remove QueryLogAdapter execute* function call
@@ -165,7 +166,6 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
 
         //log
         $this->log(
-            __FUNCTION__,
             $query,
             $parameters,
             $startTimestamp
@@ -193,7 +193,6 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
 
         //log
         $this->log(
-            __FUNCTION__,
             $query,
             $parameters,
             $startTimestamp
@@ -220,7 +219,6 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
 
         //log
         $this->log(
-            __FUNCTION__,
             $query,
             $parameters,
             $startTimestamp
@@ -247,7 +245,6 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
 
         //log
         $this->log(
-            __FUNCTION__,
             $query,
             $parameters,
             $startTimestamp
@@ -271,7 +268,6 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
 
         //log
         $this->log(
-            __FUNCTION__,
             $query,
             $parameters,
             $startTimestamp
@@ -295,7 +291,6 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
 
         //log
         $this->log(
-            __FUNCTION__,
             $query,
             $parameters,
             $startTimestamp
@@ -323,7 +318,6 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
 
         //log
         $this->log(
-            __FUNCTION__,
             $query,
             $parameters,
             $startTimestamp
@@ -349,7 +343,6 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
 
         //log
         $this->log(
-            __FUNCTION__,
             $query,
             $parameters,
             $startTimestamp
@@ -380,7 +373,6 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
 
         //log
         $this->log(
-            __FUNCTION__,
             $query,
             $parameters,
             $startTimestamp
@@ -411,7 +403,6 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
 
         //log
         $this->log(
-            __FUNCTION__,
             $query,
             $parameters,
             $startTimestamp

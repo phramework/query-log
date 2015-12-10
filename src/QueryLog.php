@@ -33,6 +33,7 @@ class QueryLog
     /**
      * Create a new query-log instance
      * @param array $settings Settings array
+     * @todo Add log level matrix
      */
     public function __construct($settings)
     {
