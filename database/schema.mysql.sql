@@ -18,14 +18,15 @@ SET time_zone = "+00:00";
 
 CREATE TABLE IF NOT EXISTS `query_log` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `request_id` varchar(36) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
+  `request_id` varchar(36) CHARACTER SET ascii COLLATE ascii_bin NOT NULL COMMENT 'A unique UUID for each requests, so multiple queries for the same can be identified',
   `query` text NOT NULL,
-  `parameters` text,
+  `parameters` text COMMENT 'JSON encoded string',
   `start_timestamp` bigint(20) unsigned NOT NULL,
-  `duration` int(10) unsigned NOT NULL,
-  `function` varchar(256) NOT NULL,
-  `URI` varchar(2048) NOT NULL,
-  `additional_parameters` text,
-  `call_trace` text,
+  `duration` int(10) unsigned NOT NULL COMMENT 'Query execution duration in ms',
+  `function` varchar(256) NOT NULL COMMENT 'Used database adapter method',
+  `URI` varchar(2048) NOT NULL COMMENT 'Request''s URI',
+  `additional_parameters` text COMMENT 'JSON encoded string',
+  `call_trace` text COMMENT 'JSON encoded string',
+  `user_id` varchar(128) DEFAULT NULL COMMENT 'The id of user if the request was authenticated',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;

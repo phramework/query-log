@@ -16,7 +16,7 @@ use \Phramework\Phramework;
 use \Phramework\QueryLog;
 
 $settings = [
-      'database' => [
+    'database' => [
           'adapter' => 'mysql',
           'host' => '',
           'username' => '',
@@ -25,7 +25,7 @@ $settings = [
           'port' => 3306
     ],
     'query-log' => [
-        database' => [
+        'database' => [
             'adapter' => '\\Phramework\\Database\\MySQL',
             'host' => '',
             'username' => '',

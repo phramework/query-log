@@ -43,7 +43,7 @@ class QueryLog
                 'database setting is not set for query-log'
             );
         }
-        
+
         $this->settings = $settings;
     }
 

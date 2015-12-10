@@ -49,7 +49,6 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
      * @param array                         $settings        Settings array
      * @param \Phramework\Database\IAdapter $internalAdapter Current database adapter
      * @param null|object|array             $additionalParameters Additional parameters to store in log
-     * @todo Generate true UUID
      */
     public function __construct(
         $settings,
@@ -73,6 +72,13 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
         $this->uuid = self::generateUUID();
     }
 
+    /**
+     * Log query to database
+     * @param  string  $function       Used database adapter method
+     * @param  string  $query
+     * @param  array   $parameters     Query parameters
+     * @param  integer $startTimestamp Timestamp before query was executed
+     */
     protected function log(
         $function,
         $query,
@@ -82,6 +88,10 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
         $endTimestamp = time();
 
         $duration = $endTimestamp - $startTimestamp;
+
+        $user = \Phramework\Phramework::getUser();
+
+        $user_id = ($user ? $user->id : null);
 
         //Get request URI
         list($URI) = self::URI();
@@ -108,8 +118,9 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
                 "function",
                 "URI",
                 "additional_parameters",
-                "call_trace"
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
+                "call_trace",
+                "user_id"
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
             [
                 $this->uuid,
                 $query,
@@ -123,11 +134,12 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
                     ? json_encode($this->additionalParameters)
                     : null
                 ),
-                json_encode($debugBacktrace)
+                json_encode($debugBacktrace),
+                $user_id
             ]
         );
     }
-    
+
     /**
      * Get adapter's name
      * @return string Adapter's name (lowercase)
