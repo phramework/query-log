@@ -114,7 +114,11 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
         array_splice($debugBacktrace, 0, 2);
 
         foreach ($debugBacktrace as $k => &$v) {
-            $v = $v['class'] . '::' . $v['function'];
+            if (isset($v['class'])) {
+                $v = $v['class'] . '::' . $v['function'];
+            } else {
+                $v = $v['function'];
+            }
         }
 
         $schema = (
@@ -231,7 +235,7 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
     {
         $startTimestamp = time();
 
-        $result = $this->internalAdapter->execute($query, $parameters);
+        $result = $this->internalAdapter->executeAndFetch($query, $parameters);
 
         //log
         $this->log(
@@ -257,7 +261,7 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
     {
         $startTimestamp = time();
 
-        $result = $this->internalAdapter->execute($query, $parameters);
+        $result = $this->internalAdapter->executeAndFetchAll($query, $parameters);
 
         //log
         $this->log(
