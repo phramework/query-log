@@ -63,10 +63,6 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
     ) {
         $logAdapterNamespace = $settings['database']['adapter'];
 
-        if (isset($settings['database']['schema'])) {
-            $this->schema = $settings['database']['schema'];
-        }
-
         $this->logAdapter = new $logAdapterNamespace($settings['database']);
 
         if (!($this->logAdapter instanceof \Phramework\Database\IAdapter)) {
@@ -74,6 +70,10 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
                 'Class "%s" is not implementing \Phramework\Database\IAdapter',
                 $logAdapterNamespace
             ));
+        }
+
+        if (isset($settings['database']['schema'])) {
+            $this->schema = $settings['database']['schema'];
         }
 
         $this->internalAdapter = $internalAdapter;
@@ -174,7 +174,7 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
      * @return type
      * @throws \Phramework\Exceptions\DatabaseException
      */
-    public function execute($query, $parameters = [])
+    public function execute($query, $parameters)
     {
         $startTimestamp = time();
 
@@ -231,7 +231,7 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
     {
         $startTimestamp = time();
 
-        $result = $this->internalAdapter->execute($query, $parameters = []);
+        $result = $this->internalAdapter->execute($query, $parameters);
 
         //log
         $this->log(
@@ -257,7 +257,7 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
     {
         $startTimestamp = time();
 
-        $result = $this->internalAdapter->execute($query, $parameters = []);
+        $result = $this->internalAdapter->execute($query, $parameters);
 
         //log
         $this->log(
@@ -351,7 +351,7 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
      * @throws \Phramework\Exceptions\DatabaseException
      * @todo provide documentation
      */
-    public function bindExecute($query, $parameters = [])
+    public function bindexecute($query, $parameters)
     {
         $startTimestamp = time();
 
