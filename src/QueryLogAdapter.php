@@ -351,7 +351,7 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
      * @throws \Phramework\Exceptions\DatabaseException
      * @todo provide documentation
      */
-    public function bindexecute($query, $parameters)
+    public function bindExecute($query, $parameters = [])
     {
         $startTimestamp = time();
 
