@@ -47,6 +47,14 @@ class Bootstrap
                     'password' => '',
                     'name' => '',
                     'port' => 3306
+                ],
+                'postgresql' => [
+                    'adapter' => '\\Phramework\\Database\\PostgreSQL',
+                    'host' => '',
+                    'username' => '',
+                    'password' => '',
+                    'name' => '',
+                    'port' => 5432
                 ]
             ]
         ];

@@ -46,6 +46,12 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
     protected $uuid;
 
     /**
+     * Table's schema, null if default is used
+     * @var null|string
+     */
+    protected $schema = null;
+
+    /**
      * @param array                         $settings        Settings array
      * @param \Phramework\Database\IAdapter $internalAdapter Current database adapter
      * @param null|object|array             $additionalParameters Additional parameters to store in log
@@ -56,6 +62,10 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
         $additionalParameters = null
     ) {
         $logAdapterNamespace = $settings['database']['adapter'];
+
+        if (isset($settings['database']['schema'])) {
+            $this->schema = $settings['database']['schema'];
+        }
 
         $this->logAdapter = new $logAdapterNamespace($settings['database']);
 
@@ -107,9 +117,15 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
             $v = $v['class'] . '::' . $v['function'];
         }
 
+        $schema = (
+            $this->schema
+            ? '"' . $this->schema . '".'
+            : ''
+        );
+
         //Insert query log record into "query_log" table
         return $this->logAdapter->execute(
-            'INSERT INTO "query_log"
+            'INSERT INTO ' . $schema . '"query_log"
             (
                 "request_id",
                 "query",
