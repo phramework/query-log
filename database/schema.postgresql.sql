@@ -33,6 +33,7 @@ CREATE TABLE query_log (
     duration integer NOT NULL,
     function text NOT NULL,
     "URI" text NOT NULL,
+    "method" text,
     additional_parameters json,
     call_trace json,
     user_id bigint,

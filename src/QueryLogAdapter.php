@@ -104,6 +104,9 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
         //Get request URI
         list($URI) = self::URI();
 
+        //Get request method
+        $method = \Phramework\Phramework::getMethod();
+
         $debugBacktrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
 
         //Function used by database adapter
@@ -138,10 +141,11 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
                 "duration",
                 "function",
                 "URI",
+                "method",
                 "additional_parameters",
                 "call_trace",
                 "user_id"
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
             [
                 $this->uuid,
                 $query,
@@ -150,6 +154,7 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
                 $duration,
                 $function,
                 $URI,
+                $method,
                 (
                     $this->additionalParameters
                     ? json_encode($this->additionalParameters)
