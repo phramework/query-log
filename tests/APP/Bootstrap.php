@@ -40,6 +40,7 @@ class Bootstrap
                 'port' => 3306
             ],
             'query-log' => [
+                'disabled' => false,
                 'database' => [
                     'adapter' => '\\Phramework\\Database\\MySQL',
                     'host' => '',

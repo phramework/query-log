@@ -54,6 +54,11 @@ class QueryLog
      */
     public function register($additionalParameters = null)
     {
+        //Ignore if disabled setting is set to true
+        if (isset($this->setting['disabled']) && $this->setting['disabled']) {
+            return false;
+        }
+
         //Get internal adapter
         $internalAdapter = \Phramework\Database\Database::getAdapter();
 
