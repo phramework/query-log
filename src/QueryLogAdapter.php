@@ -20,6 +20,8 @@ namespace Phramework\QueryLog;
 use \Phramework\Phramework;
 
 /**
+ * QueryLogAdapter is an implementation of IAdapter which uses an existing
+ * adapter to execute the called methods while logging the query in a different adapter.
  * @license https://www.apache.org/licenses/LICENSE-2.0 Apache-2.0
  * @author Xenofon Spafaridis <nohponex@gmail.com>
  */
@@ -52,9 +54,13 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
     protected $schema = null;
 
     /**
-     * @param array                         $settings        Settings array
-     * @param \Phramework\Database\IAdapter $internalAdapter Current database adapter
-     * @param null|object|array             $additionalParameters Additional parameters to store in log
+     * @param array                         $settings
+     *     Settings array
+     * @param \Phramework\Database\IAdapter $internalAdapter
+     *     Current database adapter
+     * @param null|object|array             $additionalParameters
+     *     Additional parameters to store in log
+     * @throws \Exception
      */
     public function __construct(
         $settings,
@@ -85,8 +91,10 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
     /**
      * Log query to database
      * @param  string  $query
-     * @param  array   $parameters     Query parameters
-     * @param  integer $startTimestamp Timestamp before query was executed
+     * @param  array   $parameters
+     *     Query parameters
+     * @param  integer $startTimestamp
+     *     Timestamp before query was executed
      */
     protected function log(
         $query,
@@ -168,7 +176,7 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
 
     /**
      * Get adapter's name
-     * @return string Adapter's name (lowercase)
+     * @return string Adapter's name
      */
     public function getAdapterName()
     {
@@ -180,7 +188,8 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
      *
      * @param string $query
      * @param array $parameters
-     * @return type
+     *     Query parameters
+     * @return integer Returns the number of rows affected or selected
      * @throws \Phramework\Exceptions\DatabaseException
      */
     public function execute($query, $parameters = [])
@@ -203,8 +212,9 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
      * Execute a query and return last instert id
      *
      * @param string $query
-     * @param array  $parameters Query parameters
-     * @return integer Returns the number of rows affected or selected
+     * @param array  $parameters
+     *     Query parameters
+     * @return integer Returns the id of last inserted record
      * @throws \Phramework\Exceptions\DatabaseException
      */
     public function executeLastInsertId($query, $parameters = [])
@@ -231,8 +241,9 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
      *
      * @param string $query
      * @param array  $parameters Query parameters
-     * @param array $castModel [Optional] Default is null, if set then
-     * \Phramework\Models\Filter::castEntry will be applied to data
+     * @param array  $castModel
+     *     *[Optional]* Default is null, if set then
+     *     \Phramework\Models\Filter::castEntry will be applied to data
      * @return array Returns a single row
      * @throws \Phramework\Exceptions\DatabaseException
      */
@@ -480,6 +491,7 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
     }
 
     /**
+     * Generate UUID
      * @return string Returns a 36 characters string
      */
     public static function generateUUID()

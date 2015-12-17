@@ -20,8 +20,39 @@ namespace Phramework\QueryLog;
 use \Phramework\Phramework;
 
 /**
+ * This package wraps phramework's database adapter and logs the executed
+ * queries and it's parameters.
+ * The presence of this package once activated won't affect the rest of the system.
+ * <br/>Defined settings:<br/>
+ * <ul>
+ * <li>
+ *   array database <ul>
+ *   <li>string  adapter, IAdapter's implementation classpath</li>
+ *   <li>string  name, Database name</li>
+ *   <li>string  username</li>
+ *   <li>string  password</li>
+ *   <li>string  host</li>
+ *   <li>integer port</li>
+ *   <li>string schema, <i>[Optional]</i>, Tables schema, default is null</li>
+ *  </ul>
+ * </li>
+ * <li>boolean disabled, <i>[Optional]</i>, default is false</li>
+ * </ul>
  * @license https://www.apache.org/licenses/LICENSE-2.0 Apache-2.0
  * @author Xenofon Spafaridis <nohponex@gmail.com>
+ * @example <br/>
+ * ```php
+ * //Let's assume $settings is global phramework's settings array
+ *
+ * //... After the use of \Phramework\Database\Database::setAdapter method
+ * $queryLog = new \Phramework\QueryLog\QueryLog($settings['query-log']);
+ * //Register QueryLog using additional parameters
+ * $queryLog->register(['API' => 'base']);
+ *
+ * //Now phramework instance can be invoked
+ * //Execute API
+ * $phramework->invoke();
+ * ```
  */
 class QueryLog
 {
