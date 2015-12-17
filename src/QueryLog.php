@@ -65,10 +65,12 @@ class QueryLog
      * Create a new query-log instance
      * @param array $settings Settings array
      * @todo Add log level matrix
+     * @throws \Exception When database adapter is not set
+     * @throws \Phramework\Exceptions\ServerException When `database` setting
+     * isn't defined in given settings parameter
      */
     public function __construct($settings)
     {
-
         //Check if system-log setting array is set
         if (!isset($settings['database'])) {
             throw new \Phramework\Exceptions\ServerException(
@@ -81,7 +83,7 @@ class QueryLog
 
     /**
      * Activate query-log
-     * @param  null|object|array $additionalParameters
+     * @param null|object|array $additionalParameters
      */
     public function register($additionalParameters = null)
     {
@@ -92,6 +94,10 @@ class QueryLog
 
         //Get internal adapter
         $internalAdapter = \Phramework\Database\Database::getAdapter();
+
+        if (!$internalAdapter) {
+            throw new \Exception('Database adapter seems to be uset');
+        }
 
         //Create new QueryLogAdapter instance
         $queryLogAdapter = new QueryLogAdapter(

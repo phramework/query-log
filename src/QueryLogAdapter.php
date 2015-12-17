@@ -64,7 +64,7 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
      */
     public function __construct(
         $settings,
-        $internalAdapter,
+        \Phramework\Database\IAdapter $internalAdapter,
         $additionalParameters = null
     ) {
         $logAdapterNamespace = $settings['database']['adapter'];
