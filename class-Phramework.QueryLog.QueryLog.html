@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+
+	<title>Class Phramework\QueryLog\QueryLog | query-log doc</title>
+
+	<link rel="stylesheet" href="resources/bootstrap.min.css?08b23951ef4599ca9cbf1f902d0e8290c9653ddd">
+	<link rel="stylesheet" href="resources/style.css?062e9e59e0b8c44fbaaded5b7ffc21f907b78669">
+
+</head>
+
+<body>
+	<div id="navigation" class="navbar navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container">
+				<a href="index.html" class="brand">query-log doc</a>
+				<div class="nav-collapse">
+					<ul class="nav">
+						<li>
+							<a href="namespace-Phramework.QueryLog.html" title="Summary of Phramework\QueryLog"><span>Namespace</span></a>
+						</li>
+						<li class="active">
+<span>Class</span>						</li>
+
+						<li class="divider-vertical"></li>
+
+						<li>
+							<a href="tree.html" title="Tree view of classes, interfaces, traits and exceptions"><span>Tree</span></a>
+						</li>
+						<li>
+							<a href="deprecated.html" title="List of deprecated elements"><span>Deprecated</span></a>
+						</li>
+						<li>
+							<a href="todo.html" title="Todo list"><span>Todo</span></a>
+						</li>
+
+
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="left">
+	<div id="menu">
+		<form id="search" class="form-search">
+			<input type="hidden" name="cx" value="">
+			<input type="hidden" name="ie" value="UTF-8">
+			<input type="text" name="q" class="search-query" placeholder="Search">
+		</form>
+
+
+		<div id="groups">
+				<h3>Namespaces</h3>
+			<ul>
+					<li class="active">
+						<a href="namespace-Phramework.html">
+							Phramework<span></span>
+						</a>
+							<ul>
+					<li class="active">
+						<a href="namespace-Phramework.QueryLog.html">
+							QueryLog						</a>
+							</li>
+								</ul></li>
+			</ul>
+		</div>
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li class="active"><a href="class-Phramework.QueryLog.QueryLog.html">QueryLog</a></li>
+				<li><a href="class-Phramework.QueryLog.QueryLogAdapter.html">QueryLogAdapter</a></li>
+			</ul>
+
+
+
+
+
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+	<div id="rightInner">
+<div id="content" class="class">
+	<h1>Class QueryLog</h1>
+
+
+	<div class="description">
+	<p>This package wraps phramework's database adapter and logs the executed
+queries and it's parameters.
+The presence of this package once activated won't affect the rest of the system.
+<br/>Defined settings:<br/></p>
+
+<ul>
+<li> array database <ul> <li>string  adapter, IAdapter's implementation classpath</li> <li>string  name, Database name</li> <li>string  username</li> <li>string  password</li> <li>string  host</li> <li>integer port</li> <li>string schema, <i>[Optional]</i>, Tables schema, default is null</li> </ul>
+</li>
+<li>boolean disabled, <i>[Optional]</i>, default is false</li>
+</ul>
+	</div>
+
+
+
+
+
+
+
+
+
+	<div class="alert alert-info">
+		
+		
+		<b>Namespace:</b> <a href="namespace-Phramework.html">Phramework</a>\<a href="namespace-Phramework.QueryLog.html">QueryLog</a><br>
+		
+
+				<b>License:</b>
+				<a href="https://www.apache.org/licenses/LICENSE-2.0">Apache-2.0</a><br>
+				<b>Author:</b>
+				Xenofon Spafaridis <a href="&#109;&#97;&#x69;&#x6c;&#116;&#111;&#x3a;&#x6e;o&#104;&#112;&#x6f;&#x6e;&#101;&#120;&#x40;&#x67;&#109;&#97;&#x69;&#x6c;.&#99;&#111;&#x6d;">&#x6e;o&#104;&#112;&#x6f;&#x6e;&#101;&#120;&#x40;&#x67;&#109;&#97;&#x69;&#x6c;.&#99;&#111;&#x6d;</a><br>
+				<b>Example:</b>
+				<p><br/></p>
+
+<pre><span class="php-comment">//Let's assume $settings is global phramework's settings array</span>
+
+<span class="php-comment">//... After the use of \Phramework\Database\Database::setAdapter method</span>
+<span class="php-var">$queryLog</span> = <span class="php-keyword1">new</span> \Phramework\QueryLog\QueryLog(<span class="php-var">$settings</span>[<span class="php-quote">'query-log'</span>]);
+<span class="php-comment">//Register QueryLog using additional parameters</span>
+<span class="php-var">$queryLog</span>-&gt;register([<span class="php-quote">'API'</span> =&gt; <span class="php-quote">'base'</span>]);
+
+<span class="php-comment">//Now phramework instance can be invoked</span>
+<span class="php-comment">//Execute API</span>
+<span class="php-var">$phramework</span>-&gt;invoke();</pre><br>
+			<b>Located at</b> QueryLog.php		<br>
+	</div>
+
+
+
+		<h2>Methods summary</h2>
+		<table class="summary table table-bordered table-striped methods" id="methods">
+		<tr data-order="__construct" id="___construct">
+
+			<td class="attributes"><code>
+				 public 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#___construct">#</a>
+			<code>__construct( <span>array <var>$settings</var></span> )</code>
+
+			<div class="description short">
+				<p>Create a new query-log instance</p>
+			</div>
+
+			<div class="description detailed hidden">
+				<p>Create a new query-log instance</p>
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$settings</var></dt>
+						<dd>Settings array</dd>
+					</dl></div>
+
+
+					<h4>Throws</h4>
+					<div class="list">
+						Exception<br>When database adapter is not set<br>
+						Phramework\Exceptions\ServerException<br><p>When <code>database</code> setting
+isn't defined in given settings parameter</p>
+					</div>
+
+					<h4>Todo</h4>
+					<div class="list">
+							Add log level matrix<br>
+					</div>
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="register" id="_register">
+
+			<td class="attributes"><code>
+				 public 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_register">#</a>
+			<code>register( <span>null|object|array <var>$additionalParameters</var> = <span class="php-keyword1">null</span></span> )</code>
+
+			<div class="description short">
+				<p>Activate query-log</p>
+			</div>
+
+			<div class="description detailed hidden">
+				<p>Activate query-log</p>
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$additionalParameters</var></dt>
+						<dd></dd>
+					</dl></div>
+
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		</table>
+
+
+
+		<h3>Magic methods summary</h3>
+
+
+
+
+
+
+
+
+		<h2>Properties summary</h2>
+		<table class="summary table table-bordered table-striped properties" id="properties">
+		<tr data-order="settings" id="$settings">
+			<td class="attributes"><code>
+				protected  
+				array
+			</code></td>
+
+			<td class="name">
+<var>$settings</var>
+				<div class="description short">
+					
+				</div>
+
+				<div class="description detailed hidden">
+					
+
+				</div>
+			</td>
+			<td class="value">
+				<div>
+					<a href="#$settings" class="anchor">#</a>
+					<code></code>
+				</div>
+			</td>
+		</tr>
+		</table>
+
+
+
+
+
+
+</div>
+	</div>
+
+	<div id="footer">
+		query-log doc API documentation generated by <a href="http://apigen.org">ApiGen</a>
+	</div>
+</div>
+<script src="resources/combined.js"></script>
+<script src="elementlist.js"></script>
+</body>
+</html>
