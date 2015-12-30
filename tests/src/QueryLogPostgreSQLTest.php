@@ -47,7 +47,7 @@ class QueryLogPostgreSQLTest extends \PHPUnit_Framework_TestCase
         $settings = \Phramework\QueryLog\APP\Bootstrap::getSettings();
 
         //Replace with postgresql settings
-        $settings['query-log']['database'] = $settings['query-log']['postgresql'];
+        $settings['query-log']->database = $settings['query-log']->postgresql;
 
         //Create QueryLog object
         $this->queryLog = new QueryLog($settings['query-log']);

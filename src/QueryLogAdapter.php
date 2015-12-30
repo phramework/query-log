@@ -54,6 +54,14 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
     protected $schema = null;
 
     /**
+     * Log level matrix
+     * @var object
+     */
+    protected $matrix;
+
+    const LOG_INGORED = 'IGNORED';
+
+    /**
      * @param array                         $settings
      *     Settings array
      * @param \Phramework\Database\IAdapter $internalAdapter
@@ -61,15 +69,16 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
      * @param null|object|array             $additionalParameters
      *     Additional parameters to store in log
      * @throws \Exception
+     * @todo Remove typecast to array when log adapters will accept objects
      */
     public function __construct(
         $settings,
         \Phramework\Database\IAdapter $internalAdapter,
         $additionalParameters = null
     ) {
-        $logAdapterNamespace = $settings['database']['adapter'];
+        $logAdapterNamespace = $settings->database->adapter;
 
-        $this->logAdapter = new $logAdapterNamespace($settings['database']);
+        $this->logAdapter = new $logAdapterNamespace((array)$settings->database);
 
         if (!($this->logAdapter instanceof \Phramework\Database\IAdapter)) {
             throw new \Exception(sprintf(
@@ -78,14 +87,16 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
             ));
         }
 
-        if (isset($settings['database']['schema'])) {
-            $this->schema = $settings['database']['schema'];
+        if (isset($settings->database->schema)) {
+            $this->schema = $settings->database->schema;
         }
 
         $this->internalAdapter = $internalAdapter;
         $this->additionalParameters = $additionalParameters;
 
         $this->uuid = self::generateUUID();
+
+        $this->matrix = $settings->matrix;
     }
 
     /**
@@ -117,8 +128,10 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
 
         $debugBacktrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
 
+        //search matrix settings
+
         //Function used by database adapter
-        $function = $debugBacktrace[1]['function'];
+        $adapterFunction = $debugBacktrace[1]['function'];
 
         //remove this log function call
         //remove QueryLogAdapter execute* function call
@@ -126,6 +139,37 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
 
         foreach ($debugBacktrace as $k => &$v) {
             if (isset($v['class'])) {
+                $class = $v['class'];
+                $function = $v['function'];
+
+                //Check if matrix has an entry for this class
+                if (property_exists($this->matrix, $class)) {
+                    $matrixEntry = $this->matrix->{$class};
+
+                    if (is_object($matrixEntry) || is_array($matrixEntry)) {
+                        //If vector, then is vector contains values for multiple methods of this class
+
+                        //Work with objects
+                        if (is_array($matrixEntry)) {
+                            $matrixEntry = (object)$matrixEntry;
+                        }
+
+                        if (property_exists($matrixEntry, $function)) {
+                            //If non positive value, dont log current query
+                            if (!$matrixEntry->{$function}) {
+                                return self::LOG_INGORED;
+                            }
+                        }
+                    } else {
+                        //scalar, this entry has a single value for all methods of this class
+
+                        //If non positive value, dont log current query
+                        if (!$matrixEntry) {
+                            return self::LOG_INGORED;
+                        }
+                    }
+                }
+
                 $v = $v['class'] . '::' . $v['function'];
             } else {
                 $v = $v['function'];
@@ -160,7 +204,7 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
                 ($parameters ? json_encode($parameters) : null),
                 $startTimestamp,
                 $duration,
-                $function,
+                $adapterFunction,
                 $URI,
                 $method,
                 (

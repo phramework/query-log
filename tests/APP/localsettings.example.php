@@ -8,7 +8,7 @@ $settings['database'] = [
     'port' => 3306
 ];
 
-$settings['query-log']['database'] = [
+$settings['query-log']->database = (object)[
     'adapter' => '\\Phramework\\Database\\MySQL',
     'host' => '',
     'username' => '',

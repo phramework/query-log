@@ -26,15 +26,38 @@ use \Phramework\Phramework;
  * <br/>Defined settings:<br/>
  * <ul>
  * <li>
- *   array database <ul>
- *   <li>string  adapter, IAdapter's implementation classpath</li>
+ *   object database, database settings
+ *   <ul>
+ *   <li>
+ *     string  adapter, IAdapter's implementation class path
+ *     Example:
+ *     <code>
+ *      'adapter' => '\\Phramework\\Database\\MySQL',
+ *     </code>
+ *   </li>
  *   <li>string  name, Database name</li>
  *   <li>string  username</li>
  *   <li>string  password</li>
  *   <li>string  host</li>
  *   <li>integer port</li>
- *   <li>string schema, <i>[Optional]</i>, Tables schema, default is null</li>
- *  </ul>
+ *   <li>string  schema, <i>[Optional]</i>, Tables schema, default is null</li>
+ *   </ul>
+ *   </li>
+ * <li>
+ *   object  matrix, <i>[Optional]</i>, Log level matrix,
+ *   using this matrix queries from specific or all class methods can be
+ *   excluded from logging.
+ *   The log will be excluded if the above have a non positive value and they
+ *   are contained in the current backtrace.
+ *   Example:
+ *   <code>
+ *   'matrix' => (object)[
+ *       'MyNamespace\\MyClass' => false,
+ *       'MyNamespace\\MySecondClass' => (object)[
+ *           'GET' => false
+ *       ],
+ *   ],
+ *   </code>
  * </li>
  * <li>boolean disabled, <i>[Optional]</i>, default is false</li>
  * </ul>
@@ -63,7 +86,7 @@ class QueryLog
 
     /**
      * Create a new query-log instance
-     * @param array $settings Settings array
+     * @param object $settings Settings array
      * @todo Add log level matrix
      * @throws \Exception When database adapter is not set
      * @throws \Phramework\Exceptions\ServerException When `database` setting
@@ -71,11 +94,22 @@ class QueryLog
      */
     public function __construct($settings)
     {
+        if (is_array($settings)) {
+            $settings = (object)$settings;
+        }
+
         //Check if system-log setting array is set
-        if (!isset($settings['database'])) {
+        if (!isset($settings->database])) {
             throw new \Phramework\Exceptions\ServerException(
                 'database setting is not set for query-log'
             );
+        }
+
+        if (!isset($settings->matrix)) {
+            $settings->matrix = new \stdClass();
+        } elseif (is_array($settings->matrix)) {
+            //make sure it's object
+            $settings->matrix = (object)$settings->matrix;
         }
 
         $this->settings = $settings;
