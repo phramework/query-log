@@ -78,7 +78,10 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
     ) {
         $logAdapterNamespace = $settings->database->adapter;
 
-        $this->logAdapter = new $logAdapterNamespace((array)$settings->database);
+        //Initialize new adapter used to store the log queries
+        $this->logAdapter = new $logAdapterNamespace(
+            (array)$settings->database
+        );
 
         if (!($this->logAdapter instanceof \Phramework\Database\IAdapter)) {
             throw new \Exception(sprintf(
@@ -87,6 +90,7 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
             ));
         }
 
+        //Check if schema database setting is set
         if (isset($settings->database->schema)) {
             $this->schema = $settings->database->schema;
         }
@@ -128,13 +132,11 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
 
         $debugBacktrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
 
-        //search matrix settings
-
         //Function used by database adapter
         $adapterFunction = $debugBacktrace[1]['function'];
 
-        //remove this log function call
-        //remove QueryLogAdapter execute* function call
+        //Remove current log function call
+        //Remove QueryLogAdapter execute* function call
         array_splice($debugBacktrace, 0, 2);
 
         foreach ($debugBacktrace as $k => &$v) {
