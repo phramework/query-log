@@ -1,6 +1,6 @@
 <?php
 $settings['database'] = [
-    'adapter' => '\\Phramework\\Database\\MySQL',
+    'adapter' => 'Phramework\\Database\\MySQL',
     'host' => '',
     'username' => '',
     'password' => '',
@@ -9,7 +9,7 @@ $settings['database'] = [
 ];
 
 $settings['query-log']->database = (object)[
-    'adapter' => '\\Phramework\\Database\\MySQL',
+    'adapter' => 'Phramework\\Database\\MySQL',
     'host' => '',
     'username' => '',
     'password' => '',

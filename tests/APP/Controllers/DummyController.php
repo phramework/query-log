@@ -18,6 +18,7 @@
 namespace Phramework\QueryLog\APP\Controllers;
 
 use \Phramework\Phramework;
+use \Phramework\QueryLog\APP\Models\User;
 
 /**
  * @license https://www.apache.org/licenses/LICENSE-2.0 Apache-2.0
@@ -41,6 +42,11 @@ class DummyController
                 ]
             ]
         );
+    }
+
+    public static function POST($params, $method, $headers)
+    {
+        User::post('xxx');
     }
 
     public static function GETById($params, $method, $headers, $id)

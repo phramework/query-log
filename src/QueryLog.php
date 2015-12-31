@@ -82,7 +82,7 @@ use \Phramework\Phramework;
  *
  * //Now we can invoke phramework's instance
  *
- * //Queries executed from this point are now logged based on the provided rules
+ * //Queries executed from this point forward are now logged based on the provided rules
  *
  * //Execute API
  * $phramework->invoke();
@@ -105,12 +105,13 @@ class QueryLog
      */
     public function __construct($settings)
     {
+        //Work with objects
         if (is_array($settings)) {
             $settings = (object)$settings;
         }
 
         //Check if database is set at system-log settings
-        if (!isset($settings->database])) {
+        if (!isset($settings->database)) {
             throw new \Phramework\Exceptions\ServerException(
                 '"database" setting is not set for query-log'
             );

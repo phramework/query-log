@@ -79,4 +79,15 @@ class QueryLogTest extends \PHPUnit_Framework_TestCase
             [1]
         );
     }
+    
+    public function testQuery()
+    {
+        \Phramework\QueryLog\APP\Models\User::get();
+
+        \Phramework\QueryLog\APP\Models\User::getById(1);
+
+        \Phramework\QueryLog\APP\Models\User::post(
+            \Phramework\Models\Util::readableRandomString(20)
+        );
+    }
 }

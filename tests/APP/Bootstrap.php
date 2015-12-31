@@ -42,15 +42,15 @@ class Bootstrap
             'query-log' => (object)[
                 'disabled' => false,
                 'database' => (object)[
-                    'adapter' => '\\Phramework\\Database\\MySQL',
+                    'adapter' => 'Phramework\\Database\\MySQL',
                     'host' => '',
                     'username' => '',
                     'password' => '',
                     'name' => '',
                     'port' => 3306
                 ],
-                'postgresql' => (object)[ //alternative configuration
-                    'adapter' => '\\Phramework\\Database\\PostgreSQL',
+                'postgresql' => (object)[ //alternative configuration (will replace database manualy by postgresql tests)
+                    'adapter' => 'Phramework\\Database\\PostgreSQL',
                     'host' => '',
                     'username' => '',
                     'password' => '',
@@ -58,11 +58,16 @@ class Bootstrap
                     'port' => 5432
                 ],
                 'matrix' => (object)[
-                    '\\Phramework\\SystemLog\\APP\\Controllers\\DummyController' => (object)[
+                    'Phramework\\SystemLog\\APP\\Controllers\\DummyController' => (object)[
                         'GET' => false,
                         'POST' => true
                     ],
-                    '\\Phramework\\SystemLog\\APP\\Controllers\\DummyController' => false
+                    'Phramework\\QueryLog\\APP\\Models\\User' => (object)[
+                        'get' => true,
+                        'getById' => false,
+                        'post' => true,
+                    ],
+                    //'Phramework\\SystemLog\\APP\\Controllers\\DummyController' => false
                 ]
             ]
         ];
