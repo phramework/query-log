@@ -110,11 +110,14 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
      *     Query parameters
      * @param  integer $startTimestamp
      *     Timestamp before query was executed
+     * @param null|Exception $exception
+     *     *[Optional]* Exception object if any
      */
     protected function log(
         $query,
         $parameters,
-        $startTimestamp
+        $startTimestamp,
+        $exception = null
     ) {
         $endTimestamp = time();
 
@@ -198,8 +201,9 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
                 "method",
                 "additional_parameters",
                 "call_trace",
-                "user_id"
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+                "user_id",
+                "exception"
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
             [
                 $this->uuid,
                 $query,
@@ -215,7 +219,12 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
                     : null
                 ),
                 json_encode($debugBacktrace),
-                $user_id
+                $user_id,
+                (
+                    $exception
+                    ? serialize($exception)
+                    : null
+                )
             ]
         );
     }
@@ -242,14 +251,25 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
     {
         $startTimestamp = time();
 
-        $result = $this->internalAdapter->execute($query, $parameters);
+        $exception = null;
 
-        //log
-        $this->log(
-            $query,
-            $parameters,
-            $startTimestamp
-        );
+        try {
+            $result = $this->internalAdapter->execute($query, $parameters);
+        } catch (\Exception $e) {
+            $exception = $e;
+        } finally {
+            //log
+            $this->log(
+                $query,
+                $parameters,
+                $startTimestamp,
+                $exception
+            );
+
+            if ($exception) {
+                throw $exception;
+            }
+        }
 
         return $result;
     }
@@ -267,17 +287,28 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
     {
         $startTimestamp = time();
 
-        $result = $this->internalAdapter->executeLastInsertId(
-            $query,
-            $parameters
-        );
+        $exception = null;
 
-        //log
-        $this->log(
-            $query,
-            $parameters,
-            $startTimestamp
-        );
+        try {
+            $result = $this->internalAdapter->executeLastInsertId(
+                $query,
+                $parameters
+            );
+        } catch (\Exception $e) {
+            $exception = $e;
+        } finally {
+            //log
+            $this->log(
+                $query,
+                $parameters,
+                $startTimestamp,
+                $exception
+            );
+
+            if ($exception) {
+                throw $exception;
+            }
+        }
 
         return $result;
     }
@@ -297,14 +328,25 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
     {
         $startTimestamp = time();
 
-        $result = $this->internalAdapter->executeAndFetch($query, $parameters);
+        $exception = null;
 
-        //log
-        $this->log(
-            $query,
-            $parameters,
-            $startTimestamp
-        );
+        try {
+            $result = $this->internalAdapter->executeAndFetch($query, $parameters);
+        } catch (\Exception $e) {
+            $exception = $e;
+        } finally {
+            //log
+            $this->log(
+                $query,
+                $parameters,
+                $startTimestamp,
+                $exception
+            );
+
+            if ($exception) {
+                throw $exception;
+            }
+        }
 
         return $result;
     }
@@ -323,14 +365,25 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
     {
         $startTimestamp = time();
 
-        $result = $this->internalAdapter->executeAndFetchAll($query, $parameters);
+        $exception = null;
 
-        //log
-        $this->log(
-            $query,
-            $parameters,
-            $startTimestamp
-        );
+        try {
+            $result = $this->internalAdapter->executeAndFetchAll($query, $parameters);
+        } catch (\Exception $e) {
+            $exception = $e;
+        } finally {
+            //log
+            $this->log(
+                $query,
+                $parameters,
+                $startTimestamp,
+                $exception
+            );
+
+            if ($exception) {
+                throw $exception;
+            }
+        }
 
         return $result;
     }
@@ -346,14 +399,25 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
     {
         $startTimestamp = time();
 
-        $result = $this->internalAdapter->executeAndFetchArray($query, $parameters);
+        $exception = null;
 
-        //log
-        $this->log(
-            $query,
-            $parameters,
-            $startTimestamp
-        );
+        try {
+            $result = $this->internalAdapter->executeAndFetchArray($query, $parameters);
+        } catch (\Exception $e) {
+            $exception = $e;
+        } finally {
+            //log
+            $this->log(
+                $query,
+                $parameters,
+                $startTimestamp,
+                $exception
+            );
+
+            if ($exception) {
+                throw $exception;
+            }
+        }
 
         return $result;
     }
@@ -369,14 +433,25 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
     {
         $startTimestamp = time();
 
-        $result = $this->internalAdapter->executeAndFetchAllArray($query, $parameters);
+        $exception = null;
 
-        //log
-        $this->log(
-            $query,
-            $parameters,
-            $startTimestamp
-        );
+        try {
+            $result = $this->internalAdapter->executeAndFetchAllArray($query, $parameters);
+        } catch (\Exception $e) {
+            $exception = $e;
+        } finally {
+            //log
+            $this->log(
+                $query,
+                $parameters,
+                $startTimestamp,
+                $exception
+            );
+
+            if ($exception) {
+                throw $exception;
+            }
+        }
 
         return $result;
     }
@@ -393,17 +468,28 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
     {
         $startTimestamp = time();
 
-        $result = $this->internalAdapter->bindExecuteLastInsertId(
-            $query,
-            $parameters
-        );
+        $exception = null;
 
-        //log
-        $this->log(
-            $query,
-            $parameters,
-            $startTimestamp
-        );
+        try {
+            $result = $this->internalAdapter->bindExecuteLastInsertId(
+                $query,
+                $parameters
+            );
+        } catch (\Exception $e) {
+            $exception = $e;
+        } finally {
+            //log
+            $this->log(
+                $query,
+                $parameters,
+                $startTimestamp,
+                $exception
+            );
+
+            if ($exception) {
+                throw $exception;
+            }
+        }
 
         return $result;
     }
@@ -421,14 +507,25 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
     {
         $startTimestamp = time();
 
-        $result = $this->internalAdapter->bindExecute($query, $parameters);
+        $exception = null;
 
-        //log
-        $this->log(
-            $query,
-            $parameters,
-            $startTimestamp
-        );
+        try {
+            $result = $this->internalAdapter->bindExecute($query, $parameters);
+        } catch (\Exception $e) {
+            $exception = $e;
+        } finally {
+            //log
+            $this->log(
+                $query,
+                $parameters,
+                $startTimestamp,
+                $exception
+            );
+
+            if ($exception) {
+                throw $exception;
+            }
+        }
 
         return $result;
     }
@@ -447,18 +544,29 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
     {
         $startTimestamp = time();
 
-        $result = $this->internalAdapter->bindExecuteAndFetch(
-            $query,
-            $parameters,
-            $castModel
-        );
+        $exception = null;
 
-        //log
-        $this->log(
-            $query,
-            $parameters,
-            $startTimestamp
-        );
+        try {
+            $result = $this->internalAdapter->bindExecuteAndFetch(
+                $query,
+                $parameters,
+                $castModel
+            );
+        } catch (\Exception $e) {
+            $exception = $e;
+        } finally {
+            //log
+            $this->log(
+                $query,
+                $parameters,
+                $startTimestamp,
+                $exception
+            );
+
+            if ($exception) {
+                throw $exception;
+            }
+        }
 
         return $result;
     }
@@ -477,18 +585,29 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
     {
         $startTimestamp = time();
 
-        $result = $this->internalAdapter->bindExecuteAndFetchAll(
-            $query,
-            $parameters,
-            $castModel
-        );
+        $exception = null;
 
-        //log
-        $this->log(
-            $query,
-            $parameters,
-            $startTimestamp
-        );
+        try {
+            $result = $this->internalAdapter->bindExecuteAndFetchAll(
+                $query,
+                $parameters,
+                $castModel
+            );
+        } catch (\Exception $e) {
+            $exception = $e;
+        } finally {
+            //log
+            $this->log(
+                $query,
+                $parameters,
+                $startTimestamp,
+                $exception
+            );
+
+            if ($exception) {
+                throw $exception;
+            }
+        }
 
         return $result;
     }

@@ -72,6 +72,11 @@ class QueryLogTest extends \PHPUnit_Framework_TestCase
      */
     public function testRegister2()
     {
+        try {
+            \Phramework\Database\Database::execute('SELECT * FROM "boomboom"');
+        } catch (\Exception $e) {
+        }
+
         \Phramework\Database\Database::execute('SELECT * FROM user');
 
         \Phramework\Database\Database::execute(
@@ -79,7 +84,7 @@ class QueryLogTest extends \PHPUnit_Framework_TestCase
             [1]
         );
     }
-    
+
     public function testQuery()
     {
         \Phramework\QueryLog\APP\Models\User::get();

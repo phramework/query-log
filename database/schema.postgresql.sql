@@ -25,19 +25,20 @@ SET default_with_oids = false;
 --
 
 CREATE TABLE query_log (
-    id bigint DEFAULT nextval('log_seq'::regclass) NOT NULL,
-    request_id text NOT NULL,
-    query text NOT NULL,
-    parameters json,
-    start_timestamp bigint NOT NULL,
-    duration integer NOT NULL,
-    function text NOT NULL,
-    "URI" text NOT NULL,
-    "method" text,
-    additional_parameters json,
-    call_trace json,
-    user_id bigint,
-    user_uuid text
+  id bigint DEFAULT nextval('log_seq'::regclass) NOT NULL,
+  request_id text NOT NULL,
+  query text NOT NULL,
+  parameters json,
+  start_timestamp bigint NOT NULL,
+  duration integer NOT NULL,
+  function text NOT NULL,
+  "URI" text NOT NULL,
+  "method" text,
+  additional_parameters json,
+  call_trace json,
+  user_id bigint,
+  user_uuid text,
+  exception text
 );
 
 --
@@ -46,7 +47,7 @@ CREATE TABLE query_log (
 --
 
 ALTER TABLE ONLY query_log
-    ADD CONSTRAINT query_log_pk PRIMARY KEY (id);
+  ADD CONSTRAINT query_log_pk PRIMARY KEY (id);
 
 
 -- Completed on 2015-12-14 16:18:55 EET
