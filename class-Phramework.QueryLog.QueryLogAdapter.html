@@ -167,6 +167,10 @@ adapter to execute the called methods while logging the query in a different ada
 						Exception
 					</div>
 
+					<h4>Todo</h4>
+					<div class="list">
+							Remove typecast to array when log adapters will accept objects<br>
+					</div>
 
 
 			</div>
@@ -183,7 +187,7 @@ adapter to execute the called methods while logging the query in a different ada
 
 			<td class="name"><div>
 			<a class="anchor" href="#_log">#</a>
-			<code>log( <span>string <var>$query</var></span>, <span>array <var>$parameters</var></span>, <span>integer <var>$startTimestamp</var></span> )</code>
+			<code>log( <span>string <var>$query</var></span>, <span>array <var>$parameters</var></span>, <span>integer <var>$startTimestamp</var></span>, <span>null|Exception <var>$exception</var> = <span class="php-keyword1">null</span> </span> )</code>
 
 			<div class="description short">
 				<p>Log query to database</p>
@@ -201,6 +205,8 @@ adapter to execute the called methods while logging the query in a different ada
 						<dd>Query parameters</dd>
 						<dt><var>$startTimestamp</var></dt>
 						<dd>Timestamp before query was executed</dd>
+						<dt><var>$exception</var></dt>
+						<dd><em>[Optional]</em> Exception object if any</dd>
 					</dl></div>
 
 
@@ -806,6 +812,33 @@ Get current URI and GET parameters from the requested URI</p>
 
 
 
+		<h2>Constants summary</h2>
+		<table class="summary table table-bordered table-striped constants" id="constants">
+		<tr data-order="LOG_INGORED" id="LOG_INGORED">
+
+			<td class="attributes"><code>string</code></td>
+			<td class="name">
+				<code>
+<b>LOG_INGORED</b>				</code>
+
+				<div class="description short">
+					
+				</div>
+
+				<div class="description detailed hidden">
+					
+
+				</div>
+			</td>
+			<td class="value">
+				<div>
+					<a href="#LOG_INGORED" class="anchor">#</a>
+					<code><span class="php-quote">'IGNORED'</span></code>
+				</div>
+			</td>
+		</tr>
+		</table>
+
 
 
 
@@ -928,6 +961,30 @@ Get current URI and GET parameters from the requested URI</p>
 				<div>
 					<a href="#$schema" class="anchor">#</a>
 					<code><span class="php-keyword1">null</span></code>
+				</div>
+			</td>
+		</tr>
+		<tr data-order="matrix" id="$matrix">
+			<td class="attributes"><code>
+				protected  
+				object
+			</code></td>
+
+			<td class="name">
+<var>$matrix</var>
+				<div class="description short">
+					<p>Log level matrix</p>
+				</div>
+
+				<div class="description detailed hidden">
+					<p>Log level matrix</p>
+
+				</div>
+			</td>
+			<td class="value">
+				<div>
+					<a href="#$matrix" class="anchor">#</a>
+					<code></code>
 				</div>
 			</td>
 		</tr>

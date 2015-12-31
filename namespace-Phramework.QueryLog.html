@@ -96,24 +96,47 @@
 <table class="summary table table-bordered table-striped" id="classes">
 <tr>
 	<td class="name"><a href="class-Phramework.QueryLog.QueryLog.html">QueryLog</a></td>
-	<td><p>This package wraps phramework's database adapter and logs the executed
+	<td><p>This package wraps phramework's database adapter and keeps logs of the executed
 queries and it's parameters.
 The presence of this package once activated won't affect the rest of the system.
-<br/>Defined settings:<br/></p>
+<br/><b>Defined settings:</b><br/></p>
 
 <ul>
+<li>boolean disabled, <i>[Optional]</i>, default is false</li>
 <li>
-  array database <ul>
-  <li>string  adapter, IAdapter's implementation classpath</li>
+    object database, database settings
+  <ul>
+  <li>
+    string  adapter, IAdapter's implementation class path
+    <div class="alert alert-info">
+    <i>Example:</i>
+    <pre><span class="php-quote">'adapter'</span> =&gt; <span class="php-quote">'\\Phramework\\Database\\MySQL'</span>,</pre>
+    </div>
+  </li>
   <li>string  name, Database name</li>
   <li>string  username</li>
   <li>string  password</li>
   <li>string  host</li>
   <li>integer port</li>
-  <li>string schema, <i>[Optional]</i>, Tables schema, default is null</li>
- </ul>
+  <li>string  schema, <i>[Optional]</i>, Tables schema, default is null</li>
+  </ul>
 </li>
-<li>boolean disabled, <i>[Optional]</i>, default is false</li>
+<li>
+  object  matrix, <i>[Optional]</i>, Log level matrix,
+  using this matrix queries from specific or all class methods can be
+  excluded from logging.
+  The log will be excluded if the above have a non positive value and they
+  are contained in the current backtrace.
+  <div class="alert alert-info">
+  <i>Example:</i>
+  <pre><span class="php-quote">'matrix'</span> =&gt; (object)[
+      <span class="php-quote">'MyNamespace\\MyClass'</span> =&gt; <span class="php-keyword1">false</span>,
+      <span class="php-quote">'MyNamespace\\MySecondClass'</span> =&gt; (object)[
+          <span class="php-quote">'GET'</span> =&gt; <span class="php-keyword1">false</span>
+      ],
+  ],</pre>
+  </div>
+</li>
 </ul></td>
 </tr>
 <tr>
