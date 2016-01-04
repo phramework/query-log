@@ -5,51 +5,59 @@
 
 	<title>Class Phramework\QueryLog\QueryLogAdapter | query-log doc</title>
 
-	<link rel="stylesheet" href="resources/bootstrap.min.css?08b23951ef4599ca9cbf1f902d0e8290c9653ddd">
-	<link rel="stylesheet" href="resources/style.css?062e9e59e0b8c44fbaaded5b7ffc21f907b78669">
+	<link rel="stylesheet" href="resources/bootstrap.min.css?973e37a8502921d56bc02bb55321f45b072b6f71">
+	<link rel="stylesheet" href="resources/style.css?a2b5efb503881470385230f40f9bcc3c94d665e7">
 
 </head>
 
 <body>
-	<div id="navigation" class="navbar navbar-fixed-top">
-		<div class="navbar-inner">
-			<div class="container">
-				<a href="index.html" class="brand">query-log doc</a>
-				<div class="nav-collapse">
-					<ul class="nav">
-						<li>
-							<a href="namespace-Phramework.QueryLog.html" title="Summary of Phramework\QueryLog"><span>Namespace</span></a>
-						</li>
-						<li class="active">
-<span>Class</span>						</li>
+	<nav id="navigation" class="navbar navbar-default navbar-fixed-top">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a href="index.html" class="navbar-brand">query-log doc</a>
+			</div>
+			<div class="collapse navbar-collapse">
 
-						<li class="divider-vertical"></li>
+                <form id="search" class="navbar-form navbar-left" role="search">
+                    <input type="hidden" name="cx" value="">
+                    <input type="hidden" name="ie" value="UTF-8">
+                    <div class="form-group">
+                        <input type="text" name="q" class="search-query form-control" placeholder="Search">
+					</div>
+				</form>
+
+				<ul class="nav navbar-nav">
+					<li>
+						<a href="namespace-Phramework.QueryLog.html" title="Summary of Phramework\QueryLog"><span>Namespace</span></a>
+					</li>
+					<li class="active">
+<span>Class</span>					</li>
+
+					<li class="divider-vertical"></li>
+
+					<li>
+						<a href="tree.html" title="Tree view of classes, interfaces, traits and exceptions"><span>Tree</span></a>
+					</li>
 
 						<li>
-							<a href="tree.html" title="Tree view of classes, interfaces, traits and exceptions"><span>Tree</span></a>
+							<a href="annotation-group-deprecated.html" title="List of elements with deprecated annotation">
+								<span>Deprecated</span>
+							</a>
 						</li>
 						<li>
-							<a href="deprecated.html" title="List of deprecated elements"><span>Deprecated</span></a>
-						</li>
-						<li>
-							<a href="todo.html" title="Todo list"><span>Todo</span></a>
+							<a href="annotation-group-todo.html" title="List of elements with todo annotation">
+								<span>Todo</span>
+							</a>
 						</li>
 
 
-					</ul>
-				</div>
+				</ul>
 			</div>
 		</div>
-	</div>
+	</nav>
 
 	<div id="left">
 	<div id="menu">
-		<form id="search" class="form-search">
-			<input type="hidden" name="cx" value="">
-			<input type="hidden" name="ie" value="UTF-8">
-			<input type="text" name="q" class="search-query" placeholder="Search">
-		</form>
-
 
 		<div id="groups">
 				<h3>Namespaces</h3>
@@ -128,8 +136,9 @@ adapter to execute the called methods while logging the query in a different ada
 
 
 
-		<h2>Methods summary</h2>
-		<table class="summary table table-bordered table-striped methods" id="methods">
+		<div class="panel panel-default">
+			<div class="panel-heading"><h2>Methods summary</h2></div>
+			<table class="summary table table-bordered table-striped methods" id="methods">
 		<tr data-order="__construct" id="___construct">
 
 			<td class="attributes"><code>
@@ -285,7 +294,7 @@ adapter to execute the called methods while logging the query in a different ada
 
 					<h4>Throws</h4>
 					<div class="list">
-						Phramework\Exceptions\DatabaseException
+						Phramework\Phramework\Exceptions\DatabaseException
 					</div>
 
 
@@ -329,7 +338,7 @@ adapter to execute the called methods while logging the query in a different ada
 
 					<h4>Throws</h4>
 					<div class="list">
-						Phramework\Exceptions\DatabaseException
+						Phramework\Phramework\Exceptions\DatabaseException
 					</div>
 
 
@@ -365,8 +374,7 @@ adapter to execute the called methods while logging the query in a different ada
 						<dt><var>$parameters</var></dt>
 						<dd>Query parameters</dd>
 						<dt><var>$castModel</var></dt>
-						<dd><p><em>[Optional]</em> Default is null, if set then
-    \Phramework\Models\Filter::castEntry will be applied to data</p></dd>
+						<dd><em>[Optional]</em> Default is null, if set then</dd>
 					</dl></div>
 
 					<h4>Returns</h4>
@@ -376,7 +384,7 @@ adapter to execute the called methods while logging the query in a different ada
 
 					<h4>Throws</h4>
 					<div class="list">
-						Phramework\Exceptions\DatabaseException
+						Phramework\Phramework\Exceptions\DatabaseException
 					</div>
 
 
@@ -412,8 +420,7 @@ adapter to execute the called methods while logging the query in a different ada
 						<dt><var>$parameters</var></dt>
 						<dd>Query parameters</dd>
 						<dt><var>$castModel</var></dt>
-						<dd><p>[Optional] Default is null, if set then
-\Phramework\Models\Filter::cast will be applied to data</p></dd>
+						<dd>[Optional] Default is null</dd>
 					</dl></div>
 
 					<h4>Returns</h4>
@@ -423,7 +430,7 @@ adapter to execute the called methods while logging the query in a different ada
 
 					<h4>Throws</h4>
 					<div class="list">
-						Phramework\Exceptions\DatabaseException
+						Phramework\Phramework\Exceptions\DatabaseException
 					</div>
 
 
@@ -435,7 +442,7 @@ adapter to execute the called methods while logging the query in a different ada
 
 			<td class="attributes"><code>
 				 public 
-				type
+				array
 				
 				</code>
 			</td>
@@ -462,12 +469,12 @@ adapter to execute the called methods while logging the query in a different ada
 
 					<h4>Returns</h4>
 					<div class="list">
-						type
+						array
 					</div>
 
 					<h4>Throws</h4>
 					<div class="list">
-						Phramework\Exceptions\DatabaseException
+						Phramework\Phramework\Exceptions\DatabaseException
 					</div>
 
 
@@ -479,7 +486,7 @@ adapter to execute the called methods while logging the query in a different ada
 
 			<td class="attributes"><code>
 				 public 
-				type
+				array[]
 				
 				</code>
 			</td>
@@ -506,12 +513,12 @@ adapter to execute the called methods while logging the query in a different ada
 
 					<h4>Returns</h4>
 					<div class="list">
-						type
+						array[]
 					</div>
 
 					<h4>Throws</h4>
 					<div class="list">
-						Phramework\Exceptions\DatabaseException
+						Phramework\Phramework\Exceptions\DatabaseException
 					</div>
 
 
@@ -523,7 +530,7 @@ adapter to execute the called methods while logging the query in a different ada
 
 			<td class="attributes"><code>
 				 public 
-				type
+				mixed
 				
 				</code>
 			</td>
@@ -550,12 +557,12 @@ adapter to execute the called methods while logging the query in a different ada
 
 					<h4>Returns</h4>
 					<div class="list">
-						type
+						mixed
 					</div>
 
 					<h4>Throws</h4>
 					<div class="list">
-						Phramework\Exceptions\DatabaseException
+						Phramework\Phramework\Exceptions\DatabaseException
 					</div>
 
 
@@ -567,7 +574,7 @@ adapter to execute the called methods while logging the query in a different ada
 
 			<td class="attributes"><code>
 				 public 
-				type
+				integer
 				
 				</code>
 			</td>
@@ -594,12 +601,12 @@ adapter to execute the called methods while logging the query in a different ada
 
 					<h4>Returns</h4>
 					<div class="list">
-						type
+						integer
 					</div>
 
 					<h4>Throws</h4>
 					<div class="list">
-						Phramework\Exceptions\DatabaseException
+						Phramework\Phramework\Exceptions\DatabaseException
 					</div>
 
 					<h4>Todo</h4>
@@ -650,7 +657,7 @@ then \Phramework\Models\Filter::castEntry will be applied to data</p></dd>
 
 					<h4>Throws</h4>
 					<div class="list">
-						Phramework\Exceptions\DatabaseException
+						Phramework\Phramework\Exceptions\DatabaseException
 					</div>
 
 
@@ -662,7 +669,7 @@ then \Phramework\Models\Filter::castEntry will be applied to data</p></dd>
 
 			<td class="attributes"><code>
 				 public 
-				type
+				array[]
 				
 				</code>
 			</td>
@@ -692,12 +699,12 @@ then \Phramework\Models\Filter::castEntry will be applied to data</p></dd>
 
 					<h4>Returns</h4>
 					<div class="list">
-						type
+						array[]
 					</div>
 
 					<h4>Throws</h4>
 					<div class="list">
-						Phramework\Exceptions\DatabaseException
+						Phramework\Phramework\Exceptions\DatabaseException
 					</div>
 
 
@@ -734,116 +741,51 @@ then \Phramework\Models\Filter::castEntry will be applied to data</p></dd>
 			</div>
 			</div></td>
 		</tr>
-		<tr data-order="URI" id="_URI">
-
-			<td class="attributes"><code>
-				 public static
-				string[2]
-				
-				</code>
-			</td>
-
-			<td class="name"><div>
-			<a class="anchor" href="#_URI">#</a>
-			<code>URI( )</code>
-
-			<div class="description short">
-				<p>Helper method
-Get current URI and GET parameters from the requested URI</p>
-			</div>
-
-			<div class="description detailed hidden">
-				<p>Helper method
-Get current URI and GET parameters from the requested URI</p>
+			</table>
+		</div>
 
 
 
-					<h4>Returns</h4>
-					<div class="list">
-						string[2]<br>Returns an array with current URI and GET parameters
+
+
+
+
+
+		<div class="panel panel-default">
+            <div class="panel-heading"><h2>Constants summary</h2></div>
+			<table class="summary table table-bordered table-striped constants" id="constants">
+			<tr data-order="LOG_INGORED" id="LOG_INGORED">
+
+				<td class="attributes"><code>string</code></td>
+				<td class="name">
+					<code>
+<b>LOG_INGORED</b>					</code>
+
+					<div class="description short">
+						
 					</div>
 
+					<div class="description detailed hidden">
+						
 
-
-
-			</div>
-			</div></td>
-		</tr>
-		<tr data-order="generateUUID" id="_generateUUID">
-
-			<td class="attributes"><code>
-				 public static
-				string
-				
-				</code>
-			</td>
-
-			<td class="name"><div>
-			<a class="anchor" href="#_generateUUID">#</a>
-			<code>generateUUID( )</code>
-
-			<div class="description short">
-				<p>Generate UUID</p>
-			</div>
-
-			<div class="description detailed hidden">
-				<p>Generate UUID</p>
-
-
-
-					<h4>Returns</h4>
-					<div class="list">
-						string<br>Returns a 36 characters string
 					</div>
+				</td>
+				<td class="value">
+					<div>
+						<a href="#LOG_INGORED" class="anchor">#</a>
+						<code><span class="php-quote">'IGNORED'</span></code>
+					</div>
+				</td>
+			</tr>
+			</table>
+		</div>
 
 
 
 
-			</div>
-			</div></td>
-		</tr>
-		</table>
-
-
-
-		<h3>Magic methods summary</h3>
-
-
-
-
-
-		<h2>Constants summary</h2>
-		<table class="summary table table-bordered table-striped constants" id="constants">
-		<tr data-order="LOG_INGORED" id="LOG_INGORED">
-
-			<td class="attributes"><code>string</code></td>
-			<td class="name">
-				<code>
-<b>LOG_INGORED</b>				</code>
-
-				<div class="description short">
-					
-				</div>
-
-				<div class="description detailed hidden">
-					
-
-				</div>
-			</td>
-			<td class="value">
-				<div>
-					<a href="#LOG_INGORED" class="anchor">#</a>
-					<code><span class="php-quote">'IGNORED'</span></code>
-				</div>
-			</td>
-		</tr>
-		</table>
-
-
-
-
-		<h2>Properties summary</h2>
-		<table class="summary table table-bordered table-striped properties" id="properties">
+		<div class="panel panel-default">
+            <div class="panel-heading"><h2>Properties summary</h2></div>
+			<table class="summary table table-bordered table-striped properties" id="properties">
 		<tr data-order="logAdapter" id="$logAdapter">
 			<td class="attributes"><code>
 				protected  
@@ -916,30 +858,6 @@ Get current URI and GET parameters from the requested URI</p>
 				</div>
 			</td>
 		</tr>
-		<tr data-order="uuid" id="$uuid">
-			<td class="attributes"><code>
-				protected  
-				string
-			</code></td>
-
-			<td class="name">
-<var>$uuid</var>
-				<div class="description short">
-					
-				</div>
-
-				<div class="description detailed hidden">
-					
-
-				</div>
-			</td>
-			<td class="value">
-				<div>
-					<a href="#$uuid" class="anchor">#</a>
-					<code></code>
-				</div>
-			</td>
-		</tr>
 		<tr data-order="schema" id="$schema">
 			<td class="attributes"><code>
 				protected  
@@ -961,6 +879,30 @@ Get current URI and GET parameters from the requested URI</p>
 				<div>
 					<a href="#$schema" class="anchor">#</a>
 					<code><span class="php-keyword1">null</span></code>
+				</div>
+			</td>
+		</tr>
+		<tr data-order="table" id="$table">
+			<td class="attributes"><code>
+				protected  
+				string
+			</code></td>
+
+			<td class="name">
+<var>$table</var>
+				<div class="description short">
+					<p>Table's name</p>
+				</div>
+
+				<div class="description detailed hidden">
+					<p>Table's name</p>
+
+				</div>
+			</td>
+			<td class="value">
+				<div>
+					<a href="#$table" class="anchor">#</a>
+					<code><span class="php-quote">'query_log'</span></code>
 				</div>
 			</td>
 		</tr>
@@ -988,7 +930,8 @@ Get current URI and GET parameters from the requested URI</p>
 				</div>
 			</td>
 		</tr>
-		</table>
+			</table>
+		</div>
 
 
 

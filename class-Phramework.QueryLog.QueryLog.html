@@ -5,51 +5,59 @@
 
 	<title>Class Phramework\QueryLog\QueryLog | query-log doc</title>
 
-	<link rel="stylesheet" href="resources/bootstrap.min.css?08b23951ef4599ca9cbf1f902d0e8290c9653ddd">
-	<link rel="stylesheet" href="resources/style.css?062e9e59e0b8c44fbaaded5b7ffc21f907b78669">
+	<link rel="stylesheet" href="resources/bootstrap.min.css?973e37a8502921d56bc02bb55321f45b072b6f71">
+	<link rel="stylesheet" href="resources/style.css?a2b5efb503881470385230f40f9bcc3c94d665e7">
 
 </head>
 
 <body>
-	<div id="navigation" class="navbar navbar-fixed-top">
-		<div class="navbar-inner">
-			<div class="container">
-				<a href="index.html" class="brand">query-log doc</a>
-				<div class="nav-collapse">
-					<ul class="nav">
-						<li>
-							<a href="namespace-Phramework.QueryLog.html" title="Summary of Phramework\QueryLog"><span>Namespace</span></a>
-						</li>
-						<li class="active">
-<span>Class</span>						</li>
+	<nav id="navigation" class="navbar navbar-default navbar-fixed-top">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a href="index.html" class="navbar-brand">query-log doc</a>
+			</div>
+			<div class="collapse navbar-collapse">
 
-						<li class="divider-vertical"></li>
+                <form id="search" class="navbar-form navbar-left" role="search">
+                    <input type="hidden" name="cx" value="">
+                    <input type="hidden" name="ie" value="UTF-8">
+                    <div class="form-group">
+                        <input type="text" name="q" class="search-query form-control" placeholder="Search">
+					</div>
+				</form>
+
+				<ul class="nav navbar-nav">
+					<li>
+						<a href="namespace-Phramework.QueryLog.html" title="Summary of Phramework\QueryLog"><span>Namespace</span></a>
+					</li>
+					<li class="active">
+<span>Class</span>					</li>
+
+					<li class="divider-vertical"></li>
+
+					<li>
+						<a href="tree.html" title="Tree view of classes, interfaces, traits and exceptions"><span>Tree</span></a>
+					</li>
 
 						<li>
-							<a href="tree.html" title="Tree view of classes, interfaces, traits and exceptions"><span>Tree</span></a>
+							<a href="annotation-group-deprecated.html" title="List of elements with deprecated annotation">
+								<span>Deprecated</span>
+							</a>
 						</li>
 						<li>
-							<a href="deprecated.html" title="List of deprecated elements"><span>Deprecated</span></a>
-						</li>
-						<li>
-							<a href="todo.html" title="Todo list"><span>Todo</span></a>
+							<a href="annotation-group-todo.html" title="List of elements with todo annotation">
+								<span>Todo</span>
+							</a>
 						</li>
 
 
-					</ul>
-				</div>
+				</ul>
 			</div>
 		</div>
-	</div>
+	</nav>
 
 	<div id="left">
 	<div id="menu">
-		<form id="search" class="form-search">
-			<input type="hidden" name="cx" value="">
-			<input type="hidden" name="ie" value="UTF-8">
-			<input type="text" name="q" class="search-query" placeholder="Search">
-		</form>
-
 
 		<div id="groups">
 				<h3>Namespaces</h3>
@@ -99,7 +107,7 @@ The presence of this package once activated won't affect the rest of the system.
 
 <ul>
 <li>boolean disabled, <i>[Optional]</i>, default is false</li>
-<li> object database, database settings <ul> <li> string  adapter, IAdapter's implementation class path <div class="alert alert-info"> <i>Example:</i> <pre><span class="php-quote">'adapter'</span> =&gt; <span class="php-quote">'\\Phramework\\Database\\MySQL'</span>,</pre> </div> </li> <li>string  name, Database name</li> <li>string  username</li> <li>string  password</li> <li>string  host</li> <li>integer port</li> <li>string  schema, <i>[Optional]</i>, Tables schema, default is null</li> </ul>
+<li> object database, database settings <ul> <li> string  adapter, IAdapter's implementation class path <div class="alert alert-info"> <i>Example:</i> <pre><span class="php-quote">'adapter'</span> =&gt; <span class="php-quote">'Phramework\\Database\\MySQL'</span>,</pre> </div> </li> <li>string  name, Database name</li> <li>string  username</li> <li>string  password</li> <li>string  host</li> <li>integer port</li> <li>string  table,  <i>[Optional]</i>, Table name, default is `"query_log"`</li> <li>string  schema, <i>[Optional]</i>, Tables schema, default is null</li> </ul>
 </li>
 <li> object  matrix, <i>[Optional]</i>, Log level matrix, using this matrix queries from specific or all class methods can be excluded from logging. The log will be excluded if the above have a non positive value and they are contained in the current backtrace. <div class="alert alert-info"> <i>Example:</i> <pre><span class="php-quote">'matrix'</span> =&gt; (object)[
       <span class="php-quote">'MyNamespace\\MyClass'</span> =&gt; <span class="php-keyword1">false</span>,
@@ -154,8 +162,9 @@ The presence of this package once activated won't affect the rest of the system.
 
 
 
-		<h2>Methods summary</h2>
-		<table class="summary table table-bordered table-striped methods" id="methods">
+		<div class="panel panel-default">
+			<div class="panel-heading"><h2>Methods summary</h2></div>
+			<table class="summary table table-bordered table-striped methods" id="methods">
 		<tr data-order="__construct" id="___construct">
 
 			<td class="attributes"><code>
@@ -238,12 +247,8 @@ isn't defined in given settings parameter</p>
 			</div>
 			</div></td>
 		</tr>
-		</table>
-
-
-
-		<h3>Magic methods summary</h3>
-
+			</table>
+		</div>
 
 
 
@@ -251,8 +256,13 @@ isn't defined in given settings parameter</p>
 
 
 
-		<h2>Properties summary</h2>
-		<table class="summary table table-bordered table-striped properties" id="properties">
+
+
+
+
+		<div class="panel panel-default">
+            <div class="panel-heading"><h2>Properties summary</h2></div>
+			<table class="summary table table-bordered table-striped properties" id="properties">
 		<tr data-order="settings" id="$settings">
 			<td class="attributes"><code>
 				protected  
@@ -277,7 +287,8 @@ isn't defined in given settings parameter</p>
 				</div>
 			</td>
 		</tr>
-		</table>
+			</table>
+		</div>
 
 
 
