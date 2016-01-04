@@ -34,7 +34,7 @@ use \Phramework\Phramework;
  *     <div class="alert alert-info">
  *     <i>Example:</i>
  *     <code>
- *     'adapter' => '\\Phramework\\Database\\MySQL',
+ *     'adapter' => 'Phramework\\Database\\MySQL',
  *     </code>
  *     </div>
  *   </li>
@@ -43,6 +43,7 @@ use \Phramework\Phramework;
  *   <li>string  password</li>
  *   <li>string  host</li>
  *   <li>integer port</li>
+ *   <li>string  table,  <i>[Optional]</i>, Table name, default is `"query_log"`</li>
  *   <li>string  schema, <i>[Optional]</i>, Tables schema, default is null</li>
  *   </ul>
  * </li>

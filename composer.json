@@ -1,6 +1,6 @@
 {
   "name": "phramework/query-log",
-  "description": "Log queries package for Phramework",
+  "description": "Query log  package for phramework",
   "license": "Apache-2.0",
   "homepage": "https://phramework.github.io/",
   "type": "library",
@@ -14,13 +14,14 @@
   }],
   "require": {
     "php": ">=5.6",
-    "phramework/phramework": "^1.0.2"
+    "phramework/phramework": "^1.2"
   },
   "require-dev": {
     "squizlabs/php_codesniffer": "*",
     "phpunit/phpunit": "5.*",
     "satooshi/php-coveralls": "dev-master"
   },
+  "minimum-stability": "dev",
   "prefer-stable": true,
   "autoload": {
     "psr-4": {

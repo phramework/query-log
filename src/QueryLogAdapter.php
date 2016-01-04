@@ -43,15 +43,16 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
     protected $additionalParameters;
 
     /**
-     * @var string
-     */
-    protected $uuid;
-
-    /**
      * Table's schema, null if default is used
      * @var null|string
      */
     protected $schema = null;
+
+    /**
+     * Table's name
+     * @var string
+     */
+    protected $table = 'query_log';
 
     /**
      * Log level matrix
@@ -68,7 +69,7 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
      *     Current database adapter
      * @param null|object|array             $additionalParameters
      *     Additional parameters to store in log
-     * @throws \Exception
+     * @throws Exception
      * @todo Remove typecast to array when log adapters will accept objects
      */
     public function __construct(
@@ -85,7 +86,7 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
 
         if (!($this->logAdapter instanceof \Phramework\Database\IAdapter)) {
             throw new \Exception(sprintf(
-                'Class "%s" is not implementing \Phramework\Database\IAdapter',
+                'Class "%s" is not implementing Phramework\Database\IAdapter',
                 $logAdapterNamespace
             ));
         }
@@ -95,10 +96,13 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
             $this->schema = $settings->database->schema;
         }
 
+        //Check if table database setting is set
+        if (isset($settings->database->table)) {
+            $this->table = $settings->database->table;
+        }
+
         $this->internalAdapter = $internalAdapter;
         $this->additionalParameters = $additionalParameters;
-
-        $this->uuid = self::generateUUID();
 
         $this->matrix = $settings->matrix;
     }
@@ -128,7 +132,7 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
         $user_id = ($user ? $user->id : null);
 
         //Get request URI
-        list($URI) = self::URI();
+        list($URI) = \Phramework\URIStrategy\URITemplate::URI();
 
         //Get request method
         $method = \Phramework\Phramework::getMethod();
@@ -181,16 +185,16 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
             }
         }
 
-        $schema = (
-            $this->schema
-            ? '"' . $this->schema . '".'
-            : ''
+        $schemaTable = (
+            $this->schema //if schema is set
+            ? '"' . $this->schema . '"."' . $this->table . '"'
+            : '"' . $this->table . '"'
         );
 
-        //Insert query log record into "query_log" table
+        //Insert query log record into table
         return $this->logAdapter->execute(
-            'INSERT INTO ' . $schema . '"query_log"
-            (
+            'INSERT INTO ' . $schemaTable .
+            '(
                 "request_id",
                 "query",
                 "parameters",
@@ -205,9 +209,13 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
                 "exception"
             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
             [
-                $this->uuid,
+                \Phramework\Phramework::getRequestUUID(),
                 $query,
-                ($parameters ? json_encode($parameters) : null),
+                (
+                    $parameters
+                    ? json_encode($parameters)
+                    : null
+                ),
                 $startTimestamp,
                 $duration,
                 $adapterFunction,
@@ -245,7 +253,7 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
      * @param array $parameters
      *     Query parameters
      * @return integer Returns the number of rows affected or selected
-     * @throws \Phramework\Exceptions\DatabaseException
+     * @throws Phramework\Exceptions\DatabaseException
      */
     public function execute($query, $parameters = [])
     {
@@ -281,7 +289,7 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
      * @param array  $parameters
      *     Query parameters
      * @return integer Returns the id of last inserted record
-     * @throws \Phramework\Exceptions\DatabaseException
+     * @throws Phramework\Exceptions\DatabaseException
      */
     public function executeLastInsertId($query, $parameters = [])
     {
@@ -320,9 +328,8 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
      * @param array  $parameters Query parameters
      * @param array  $castModel
      *     *[Optional]* Default is null, if set then
-     *     \Phramework\Models\Filter::castEntry will be applied to data
      * @return array Returns a single row
-     * @throws \Phramework\Exceptions\DatabaseException
+     * @throws Phramework\Exceptions\DatabaseException
      */
     public function executeAndFetch($query, $parameters = [], $castModel = null)
     {
@@ -356,10 +363,9 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
      *
      * @param string $query
      * @param array  $parameters Query parameters
-     * @param array $castModel [Optional] Default is null, if set then
-     * \Phramework\Models\Filter::cast will be applied to data
+     * @param array $castModel [Optional] Default is null
      * @return array[]
-     * @throws \Phramework\Exceptions\DatabaseException
+     * @throws Phramework\Exceptions\DatabaseException
      */
     public function executeAndFetchAll($query, $parameters = [], $castModel = null)
     {
@@ -392,8 +398,8 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
      * Execute a query and fetch first row as array
      * @param string $query
      * @param array  $parameters Query parameters
-     * @return type
-     * @throws \Phramework\Exceptions\DatabaseException
+     * @return array
+     * @throws Phramework\Exceptions\DatabaseException
      */
     public function executeAndFetchArray($query, $parameters = [])
     {
@@ -426,8 +432,8 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
      *
      * @param string $query Query string
      * @param array  $parameters Query parameters
-     * @return type
-     * @throws \Phramework\Exceptions\DatabaseException
+     * @return array[]
+     * @throws Phramework\Exceptions\DatabaseException
      */
     public function executeAndFetchAllArray($query, $parameters = [])
     {
@@ -461,8 +467,8 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
      *
      * @param string $query Query string
      * @param array Query parameters
-     * @return type
-     * @throws \Phramework\Exceptions\DatabaseException
+     * @return mixed
+     * @throws Phramework\Exceptions\DatabaseException
      */
     public function bindExecuteLastInsertId($query, $parameters = [])
     {
@@ -499,8 +505,8 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
      *
      * @param string $query Query string
      * @param array  $parameters Query parameters
-     * @return type
-     * @throws \Phramework\Exceptions\DatabaseException
+     * @return integer
+     * @throws Phramework\Exceptions\DatabaseException
      * @todo provide documentation
      */
     public function bindExecute($query, $parameters = [])
@@ -538,7 +544,7 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
      * @param array $castModel [Optional] Default is null, if set
      * then \Phramework\Models\Filter::castEntry will be applied to data
      * @return array
-     * @throws \Phramework\Exceptions\DatabaseException
+     * @throws Phramework\Exceptions\DatabaseException
      */
     public function bindExecuteAndFetch($query, $parameters = [], $castModel = null)
     {
@@ -578,8 +584,8 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
      * @param array  $parameters Query parameters
      * @param array $castModel [Optional] Default is null, if set then
      * \Phramework\Models\Filter::castEntry will be applied to data
-     * @return type
-     * @throws \Phramework\Exceptions\DatabaseException
+     * @return array[]
+     * @throws Phramework\Exceptions\DatabaseException
      */
     public function bindExecuteAndFetchAll($query, $parameters = [], $castModel = null)
     {
@@ -618,59 +624,5 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
     public function close()
     {
         return $this->internalAdapter->close();
-    }
-
-    /**
-     * Helper method
-     * Get current URI and GET parameters from the requested URI
-     * @return string[2] Returns an array with current URI and GET parameters
-     */
-    public static function URI()
-    {
-        $REDIRECT_QUERY_STRING = (
-            isset($_SERVER['QUERY_STRING'])
-            ? $_SERVER['QUERY_STRING']
-            : ''
-        );
-
-        $REDIRECT_URL = '';
-
-        if (isset($_SERVER['REQUEST_URI'])) {
-            $url_parts = parse_url($_SERVER['REQUEST_URI']);
-            $REDIRECT_URL = $url_parts['path'];
-        }
-
-        $URI = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/');
-
-        $URI = '/' . trim(str_replace($URI, '', $REDIRECT_URL), '/');
-        $URI = urldecode($URI) . '/';
-
-        $URI = trim($URI, '/');
-
-        $parameters = [];
-
-        //Extract parametrs from QUERY string
-        parse_str($REDIRECT_QUERY_STRING, $parameters);
-
-        return [$URI, $parameters];
-    }
-
-    /**
-     * Generate UUID
-     * @return string Returns a 36 characters string
-     */
-    public static function generateUUID()
-    {
-        return sprintf(
-            '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
-            mt_rand(0, 0xffff),
-            mt_rand(0, 0xffff),
-            mt_rand(0, 0xffff),
-            mt_rand(0, 0x0fff) | 0x4000,
-            mt_rand(0, 0x3fff) | 0x8000,
-            mt_rand(0, 0xffff),
-            mt_rand(0, 0xffff),
-            mt_rand(0, 0xffff)
-        );
     }
 }

@@ -47,9 +47,11 @@ class Bootstrap
                     'username' => '',
                     'password' => '',
                     'name' => '',
-                    'port' => 3306
+                    'port' => 3306,
+                    'table' => 'query_log'
                 ],
-                'postgresql' => (object)[ //alternative configuration (will replace database manualy by postgresql tests)
+                //alternative configuration (will replace database manualy by postgresql tests)
+                'postgresql' => (object)[
                     'adapter' => 'Phramework\\Database\\PostgreSQL',
                     'host' => '',
                     'username' => '',
