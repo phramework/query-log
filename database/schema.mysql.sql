@@ -30,5 +30,6 @@ CREATE TABLE IF NOT EXISTS `query_log` (
   `call_trace` text COMMENT 'JSON encoded string',
   `user_id` varchar(128) DEFAULT NULL COMMENT 'The id of user if the request was authenticated',
   `exception` text NULL DEFAULT NULL COMMENT 'serialized exception object',
+  `exception_class` varchar(1024) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;

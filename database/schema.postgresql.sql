@@ -38,7 +38,8 @@ CREATE TABLE query_log (
   call_trace json,
   user_id bigint,
   user_uuid text,
-  exception text
+  exception text,
+  exception_class character varying(1024) DEFAULT NULL::character varying
 );
 
 --
