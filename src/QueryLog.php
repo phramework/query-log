@@ -138,7 +138,7 @@ class QueryLog
     public function register($additionalParameters = null)
     {
         //Ignore registration if disabled setting is set to true
-        if (isset($this->setting->disabled) && $this->setting->disabled) {
+        if (isset($this->settings->disabled) && $this->settings->disabled) {
             return false;
         }
 

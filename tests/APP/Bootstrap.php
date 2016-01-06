@@ -32,7 +32,7 @@ class Bootstrap
         $settings = [
             'debug' => true,
             'database' => [
-                'adapter' => 'mysql',
+                'adapter' => 'Phramework\\Database\\MySQL',
                 'host' => '',
                 'username' => '',
                 'password' => '',
