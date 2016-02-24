@@ -230,7 +230,7 @@ class QueryLogAdapter implements \Phramework\Database\IAdapter
                 $user_id,
                 (
                     $exception
-                    ? serialize($exception)
+                    ? serialize(QueryLog::flattenExceptionBacktrace($exception))
                     : null
                 )
             ]

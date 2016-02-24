@@ -49,9 +49,9 @@ class QueryLogTest extends \PHPUnit_Framework_TestCase
         //Create QueryLog object
         $this->queryLog = new QueryLog($settings['query-log']);
 
-        $this->queryLog->register(
-            ['client' => 'PHPUnit']
-        );
+        $this->queryLog->register((object) [
+            'client' => 'PHPUnit'
+        ]);
     }
 
     /**

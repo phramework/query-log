@@ -25,7 +25,7 @@ use \Phramework\Phramework;
  * The presence of this package once activated won't affect the rest of the system.
  * <br/><b>Defined settings:</b><br/>
  * <ul>
- * <li>boolean disabled, <i>[Optional]</i>, default is false</li>
+ * <li>boolean disabled, <i>[Optional]</i>, disable log instance, default is false</li>
  * <li>
  *     object database, database settings
  *   <ul>
@@ -131,12 +131,18 @@ class QueryLog
 
     /**
      * Activate query-log
-     * @param null|object|array $additionalParameters
+     * @param null|object $additionalParameters
      *     Additional parameters to be stored in query logs
      * @return boolean Returns false if query log is disabled
+     * @throws \Exception
+     * @uses Phramework\Database\Database
      */
     public function register($additionalParameters = null)
     {
+        if ($additionalParameters && !is_object($additionalParameters)) {
+            throw new \Exception('additionalParameters must be an object');
+        }
+
         //Ignore registration if disabled setting is set to true
         if (isset($this->settings->disabled) && $this->settings->disabled) {
             return false;
@@ -160,5 +166,40 @@ class QueryLog
         \Phramework\Database\Database::setAdapter($queryLogAdapter);
 
         return true;
+    }
+
+    /**
+     * @link https://gist.github.com/Thinkscape/805ba8b91cdce6bcaf7c
+     * @param  \Exception $exception
+     * @return \Exception
+     */
+    public static function flattenExceptionBacktrace(\Exception $exception)
+    {
+        $traceProperty = (new \ReflectionClass('Exception'))->getProperty('trace');
+        $traceProperty->setAccessible(true);
+        $flatten = function (&$value, $key) {
+            if ($value instanceof \Closure) {
+                $closureReflection = new \ReflectionFunction($value);
+                $value = sprintf(
+                    '(Closure at %s:%s)',
+                    $closureReflection->getFileName(),
+                    $closureReflection->getStartLine()
+                );
+            } elseif (is_object($value)) {
+                $value = sprintf('object(%s)', get_class($value));
+            } elseif (is_resource($value)) {
+                $value = sprintf('resource(%s)', get_resource_type($value));
+            }
+        };
+
+        do {
+            $trace = $traceProperty->getValue($exception);
+            foreach ($trace as &$call) {
+                array_walk_recursive($call['args'], $flatten);
+            }
+            $traceProperty->setValue($exception, $trace);
+        } while ($exception = $exception->getPrevious());
+
+        $traceProperty->setAccessible(false);
     }
 }

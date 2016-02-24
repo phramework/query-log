@@ -59,12 +59,12 @@ class Bootstrap
                     'name' => '',
                     'port' => 5432
                 ],
-                'matrix' => (object)[
-                    'Phramework\\SystemLog\\APP\\Controllers\\DummyController' => (object)[
+                'matrix' => (object) [
+                    'Phramework\\SystemLog\\APP\\Controllers\\DummyController' => (object) [
                         'GET' => false,
                         'POST' => true
                     ],
-                    'Phramework\\QueryLog\\APP\\Models\\User' => (object)[
+                    'Phramework\\QueryLog\\APP\\Models\\User' => (object) [
                         'get' => true,
                         'getById' => false,
                         'post' => true,
